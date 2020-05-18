@@ -20,7 +20,7 @@ exports.signup = (req, res) => {
   if(!valid) return res.status(400).json(errors);
 
 // Validate Data
-  let token, usdId;
+  let token, userId;
   db
     .doc(`/users/${newUser.handle}`)
     .get()
@@ -44,7 +44,7 @@ exports.signup = (req, res) => {
         handle: newUser.handle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        userId // userId = userId: userId
+        userId // userId by itself means userId: userId
       };
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
