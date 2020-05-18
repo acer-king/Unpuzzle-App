@@ -25,7 +25,7 @@ exports.validateSignupData = (data) => {
 
   return {
     errors,
-    valid: Object.keys(errors).length = 0 ? true : false
+    valid: Object.keys(errors).length === 0 ? true : false // this second see below
   }
 }
 
@@ -37,6 +37,6 @@ exports.validateLoginData = (data) => {
 
   return {
     errors,
-    valid: Object.keys(errors).length = 0 ? true : false
+    valid: Object.keys(errors).length === 0 ? true : false // this first assinged but need compare ===
   }
 }

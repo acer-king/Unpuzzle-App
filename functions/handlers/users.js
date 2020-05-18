@@ -1,4 +1,4 @@
-const db = require('../util/admin');
+const { db } = require('../util/admin'); // lost curly braces here
 
 const config = require('../util/config');
 
@@ -20,6 +20,7 @@ exports.signup = (req, res) => {
   if(!valid) return res.status(400).json(errors);
 
   let token, userId;
+
   db
     .doc(`/users/${newUser.handle}`)
     .get()
