@@ -19,7 +19,7 @@ exports.signup = (req, res) => {
 
   if(!valid) return res.status(400).json(errors);
 
-  let token, userId, uuuser;
+  let token, userId;
 
   db
     .doc(`/users/${newUser.handle}`)
