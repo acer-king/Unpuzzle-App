@@ -19,7 +19,6 @@ exports.signup = (req, res) => {
 
   if(!valid) return res.status(400).json(errors);
 
-// Validate Data
   let token, userId;
   db
     .doc(`/users/${newUser.handle}`)
@@ -29,11 +28,11 @@ exports.signup = (req, res) => {
         return res.status(400).json({ handle: 'This handle is already taken' });
       } else {
         return firebase
-    .auth()
-    .createUserWithEmailAndPassword(newUser.email, newUser.password)
+          .auth()
+          .createUserWithEmailAndPassword(newUser.email, newUser.password)
       }
     })
-    .then(data => {
+    .then((data) => {
       // if we get here that means we have our user created
       userId = data.user.uid;
       return data.user.getIdToken();
@@ -44,7 +43,7 @@ exports.signup = (req, res) => {
         handle: newUser.handle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        userId // userId by itself means userId: userId
+        userId // userId = userId: userId
       };
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
@@ -59,7 +58,7 @@ exports.signup = (req, res) => {
         return res.status(500).json({ error: err.code });
       }
     })
-};
+}
 
 exports.login = (req, res) => {
   const user = {
