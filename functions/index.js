@@ -5,7 +5,7 @@ const app = require('express')();
 const FirebaseAuth = require('./util/FirebaseAuth');
 
 const { getAllPuzzlePieces, postOnePuzzlePiece } = require('./handlers/puzzlepieces');
-const { signup, login } = require('./handlers/users');
+const { signup, login, uploadImage } = require('./handlers/users');
 
 // Scream Routes
 app.get('/puzzlepieces', getAllPuzzlePieces);
@@ -14,6 +14,7 @@ app.post('/puzzlepiece', FirebaseAuth, postOnePuzzlePiece);
 // User Routes
 app.post('/signup', signup);
 app.post('/login', login);
+app.post('/user/image', FirebaseAuth, uploadImage)
 
 exports.api = functions.https.onRequest(app);
 
