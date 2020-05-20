@@ -17,6 +17,7 @@ const {
 app.get('/puzzlepieces', getAllPuzzlePieces);
 app.post('/puzzlepiece', FirebaseAuth, postOnePuzzlePiece);
 
+
 // User Routes
 app.post('/signup', signup);
 app.post('/login', login);
