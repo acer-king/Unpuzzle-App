@@ -50,3 +50,28 @@ exports.postOnePuzzlePiece = (req, res) => {
     });
 };
 
+exports.getPuzzlepiece = (req, res) => {
+  let puzzlepieceData = {};
+  db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`)
+    .get()
+    .then(doc => {
+      if(!doc.exists){
+        return res.status(404).json({ error: 'Puzzle piece not found' })
+      }
+      puzzlepieceData = doc.data();
+      puzzlepieceData.puzzlepieceId = doc.id;
+      return db.collection('comments').where('puzzlepieceId', '==', 'req.params.puzzlepieceId').get();
+    })
+    .then(data => {
+      puzzlepieceData.comments = [];
+      data.forEach(doc => {
+        puzzlepieceData.comments.push(doc.data())
+      });
+      return res.json(puzzlepieceData);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    })
+}
+
