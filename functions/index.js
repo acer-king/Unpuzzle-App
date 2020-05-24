@@ -8,7 +8,10 @@ const {
   getAllPuzzlePieces, 
   postOnePuzzlePiece, 
   getPuzzlepiece,
-  commentOnPuzzlepiece
+  commentOnPuzzlepiece,
+  likePuzzlepiece,
+  unlikePuzzlepiece,
+  deletePuzzlepiece
 } = require('./handlers/puzzlepieces');
 const { 
   signup, 
@@ -22,9 +25,10 @@ const {
 app.get('/puzzlepieces', getAllPuzzlePieces);
 app.post('/puzzlepiece', FirebaseAuth, postOnePuzzlePiece);
 app.get('/puzzlepiece/:puzzlepieceId', getPuzzlepiece);
-// TODO: delete a PP
-// TODO: Like a PP
-app.post('/puzzlepiece/:puzzlepieceId/comment', FirebaseAuth, commentOnPuzzlepiece)
+app.delete('/puzzlepiece/:puzzlepieceId', FirebaseAuth, deletePuzzlepiece);
+app.get('/puzzlepiece/:puzzlepieceId/like', FirebaseAuth, likePuzzlepiece);
+app.get('/puzzlepiece/:puzzlepieceId/unlike', FirebaseAuth, unlikePuzzlepiece);
+app.post('/puzzlepiece/:puzzlepieceId/comment', FirebaseAuth, commentOnPuzzlepiece);
 
 
 // User Routes

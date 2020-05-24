@@ -33,16 +33,21 @@ exports.postOnePuzzlePiece = (req, res) => {
   const newPuzzlePiece = {
     body: req.body.body,
     userHandle: req.user.handle,
+    userImage: req.user.imageUrl,
     ppType: req.body.ppType ? req.body.ppType : null,
     ppURL: req.body.ppURL ? req.body.ppURL : null,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    likeCount: 0,
+    commentCount: 0
   };
 
   db
     .collection('puzzlepieces')
     .add(newPuzzlePiece)
     .then(doc => {
-      res.json({ message: `Document ${doc.id} created successfully.`});
+      const resPuzzlepiece = newPuzzlePiece;
+      resPuzzlepiece.screamId = doc.id;
+      res.json(resPuzzlepiece);
     })
     .catch(err => {
       res.status(500).json({ error: 'Something went wrong.' });
@@ -96,6 +101,9 @@ exports.commentOnPuzzlepiece = (req, res) => {
       if(!doc.exists){
         return res.status(404).json({ error: 'PP not found' })
       }
+      return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
+    })
+    .then(() => {
       return db.collection('comments').add(newComment);
     })
     .then(() => {
@@ -104,5 +112,106 @@ exports.commentOnPuzzlepiece = (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: 'Something went wrong' });
+    })
+}
+// Like a puzzle piece
+exports.likePuzzlepiece = (req,res) => {
+  const likeDocument = db.collection('likes').where('userHandle', '==', req.user.handle)
+    .where('puzzlepieceId', '==', req.params.puzzlepieceId).limit(1); // We do the limit function since it's a query and it's going to give us a couple of documents. limit(1) gives an array of one document
+
+  const puzzlepieceDocument = db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`);
+  
+  let puzzlepieceData;
+
+  puzzlepieceDocument.get()
+    .then(doc => {
+      if(doc.exists){
+        puzzlepieceData = doc.data();
+        puzzlepieceData.puzzlepieceId = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: 'Puzzle piece not found' });
+      }
+    })
+    .then(data => {
+      if(data.empty) {
+        return db.collection('likes').add({
+          puzzlepieceId: req.params.puzzlepieceId,
+          userHandle: req.user.handle
+        })
+        .then(() => {
+          puzzlepieceData.likeCount++
+          return puzzlepieceDocument.update({ likeCount: puzzlepieceData.likeCount });
+        })
+        .then(() => {
+          return res.json(puzzlepieceData);
+        })
+      } else {
+        return res.status(400).json({ error: 'Puzzle piece already liked.'})
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    })
+};
+
+exports.unlikePuzzlepiece = (req, res) => {
+  const likeDocument = db.collection('likes').where('userHandle', '==', req.user.handle)
+    .where('puzzlepieceId', '==', req.params.puzzlepieceId).limit(1); // We do the limit function since it's a query and it's going to give us a couple of documents. limit(1) gives an array of one document
+
+  const puzzlepieceDocument = db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`);
+  
+  let puzzlepieceData;
+
+  puzzlepieceDocument.get()
+    .then(doc => {
+      if(doc.exists){
+        puzzlepieceData = doc.data();
+        puzzlepieceData.puzzlepieceId = doc.id;
+        return likeDocument.get();
+      } else {
+        return res.status(404).json({ error: 'Puzzle piece not found' });
+      }
+    })
+    .then(data => {
+      if(data.empty) {
+        return res.status(400).json({ error: 'Puzzle piece not liked.'})
+      } else {
+        return db.doc(`/likes/${data.docs[0].id}`).delete()
+          .then(() => {
+            puzzlepieceData.likeCount--;
+            return puzzlepieceDocument.update({ likeCount: puzzlepieceData.likeCount });
+          })
+          .then(() => {
+            res.json(puzzlepieceData);
+          })
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    })
+};
+// Delete a puzzle piece
+exports.deletePuzzlepiece = (req, res) => {
+  const document = db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`);
+  document.get()
+    .then(doc => {
+      if(!doc.exists) {
+        return res.status(404).json({ error: 'Puzzle piece not found' });
+      }
+      if(doc.data().userHandle !== req.user.handle){
+        return res.status(403).json({ error: 'Unauthorized' });
+      } else {
+        return document.delete();
+      }
+    })
+    .then(() => {
+      res.json({ message: 'Puzzle piece deleted. '});
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code })
     })
 }
