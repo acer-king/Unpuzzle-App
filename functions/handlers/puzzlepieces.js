@@ -60,12 +60,12 @@ exports.getPuzzlepiece = (req, res) => {
       }
       puzzlepieceData = doc.data();
       puzzlepieceData.puzzlepieceId = doc.id;
-      return db.collection('comments').where('puzzlepieceId', '==', 'req.params.puzzlepieceId').get();
+      return db.collection('comments').where('puzzlepieceId', '==', req.params.puzzlepieceId).get();
     })
     .then(data => {
       puzzlepieceData.comments = [];
       data.forEach(doc => {
-        puzzlepieceData.comments.push(doc.data())
+        puzzlepieceData.comments.push(doc.data());
       });
       return res.json(puzzlepieceData);
     })
@@ -73,5 +73,5 @@ exports.getPuzzlepiece = (req, res) => {
       console.error(err);
       res.status(500).json({ error: err.code });
     })
-}
+};
 

@@ -27,7 +27,7 @@ app.post('/signup', signup);
 app.post('/login', login);
 app.post('/user/image', FirebaseAuth, uploadImage);
 app.post('/user', FirebaseAuth, addUserDetails);
-app.get('/user', FirebaseAuth, getAuthenticatedUser)
+app.get('/user', FirebaseAuth, getAuthenticatedUser);
 
 exports.api = functions.https.onRequest(app);
 
