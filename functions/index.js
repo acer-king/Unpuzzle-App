@@ -4,7 +4,12 @@ const app = require('express')();
 
 const FirebaseAuth = require('./util/FirebaseAuth');
 
-const { getAllPuzzlePieces, postOnePuzzlePiece, getPuzzlepiece } = require('./handlers/puzzlepieces');
+const { 
+  getAllPuzzlePieces, 
+  postOnePuzzlePiece, 
+  getPuzzlepiece,
+  commentOnPuzzlepiece
+} = require('./handlers/puzzlepieces');
 const { 
   signup, 
   login, 
@@ -19,7 +24,7 @@ app.post('/puzzlepiece', FirebaseAuth, postOnePuzzlePiece);
 app.get('/puzzlepiece/:puzzlepieceId', getPuzzlepiece);
 // TODO: delete a PP
 // TODO: Like a PP
-// TODO: Comment on a PP
+app.post('/puzzlepiece/:puzzlepieceId/comment', FirebaseAuth, commentOnPuzzlepiece)
 
 
 // User Routes

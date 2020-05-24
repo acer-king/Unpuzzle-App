@@ -49,7 +49,7 @@ exports.postOnePuzzlePiece = (req, res) => {
       console.error(err);
     });
 };
-
+// Fetch one puzzle piece
 exports.getPuzzlepiece = (req, res) => {
   let puzzlepieceData = {};
   db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`)
@@ -60,7 +60,11 @@ exports.getPuzzlepiece = (req, res) => {
       }
       puzzlepieceData = doc.data();
       puzzlepieceData.puzzlepieceId = doc.id;
-      return db.collection('comments').where('puzzlepieceId', '==', req.params.puzzlepieceId).get();
+      return db
+      .collection('comments')
+      .orderBy('createdAt', 'desc')
+      .where('puzzlepieceId', '==', req.params.puzzlepieceId)
+      .get();
     })
     .then(data => {
       puzzlepieceData.comments = [];
@@ -74,4 +78,31 @@ exports.getPuzzlepiece = (req, res) => {
       res.status(500).json({ error: err.code });
     })
 };
+// Comment on a Puzzle Piece
+exports.commentOnPuzzlepiece = (req, res) => {
+  if(req.body.body.trim() === '') return res.status(400).json({ error: 'Must not be empty'});
 
+  const newComment = {
+    body: req.body.body,
+    createdAt: new Date().toISOString(),
+    puzzlepieceId: req.params.puzzlepieceId,
+    userHandle: req.user.handle,
+    userImage: req.user.imageUrl
+  };
+
+  db.doc(`/puzzlepieces/${req.params.puzzlepieceId}`)
+    .get()
+    .then(doc => {
+      if(!doc.exists){
+        return res.status(404).json({ error: 'PP not found' })
+      }
+      return db.collection('comments').add(newComment);
+    })
+    .then(() => {
+      res.json(newComment)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: 'Something went wrong' });
+    })
+}
