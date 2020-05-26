@@ -18,7 +18,9 @@ const {
   login, 
   uploadImage, 
   addUserDetails,
-  getAuthenticatedUser
+  getAuthenticatedUser,
+  getUserDetails,
+  markNotificationsRead
  } = require('./handlers/users');
 
 // Scream Routes
@@ -37,6 +39,8 @@ app.post('/login', login);
 app.post('/user/image', FirebaseAuth, uploadImage);
 app.post('/user', FirebaseAuth, addUserDetails);
 app.get('/user', FirebaseAuth, getAuthenticatedUser);
+app.get('/user/:handle', getUserDetails);
+app.post('/notifications', markNotificationsRead);
 
 exports.api = functions.region('us-east1').https.onRequest(app);
 
@@ -92,7 +96,7 @@ exports.createNotificationOnComment = functions
           createdAt: new Date().toISOString(),
           recipient: doc.data().userHandle,
           sender: snapshot.data().userHandle,
-          type: 'like',
+          type: 'comment',
           read: false,
           puzzlepieceId: doc.id
         });
