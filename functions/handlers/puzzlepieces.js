@@ -12,9 +12,12 @@ exports.getAllPuzzlePieces = (req, res) => {
           puzzlepieceId: doc.id,
           body: doc.data().body,
           userHandle: doc.data().userHandle,
+          createdAt: doc.data().createdAt,
+          commentCount: doc.data().commentCount,
+          likeCount: doc.data().likeCount,
+          userImage: doc.data().userImage,
           ppType: doc.data().ppType ? doc.data().ppType : null,
-          ppURL: doc.data().ppURL ? doc.data().ppURL : null,
-          createdAt: doc.data().createdAt
+          ppURL: doc.data().ppURL ? doc.data().ppURL : null
         });
       });
       return res.json(puzzlepieces);
@@ -85,7 +88,8 @@ exports.getPuzzlepiece = (req, res) => {
 };
 // Comment on a Puzzle Piece
 exports.commentOnPuzzlepiece = (req, res) => {
-  if(req.body.body.trim() === '') return res.status(400).json({ error: 'Must not be empty'});
+  if(req.body.body.trim() === '') 
+    return res.status(400).json({ comment: 'Must not be empty'});
 
   const newComment = {
     body: req.body.body,
