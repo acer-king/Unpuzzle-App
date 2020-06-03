@@ -23,7 +23,7 @@ const {
   markNotificationsRead
  } = require('./handlers/users');
 
-// Scream Routes
+// Puzzle Routes
 app.get('/puzzlepieces', getAllPuzzlePieces);
 app.post('/puzzlepiece', FirebaseAuth, postOnePuzzlePiece);
 app.get('/puzzlepiece/:puzzlepieceId', getPuzzlepiece);
