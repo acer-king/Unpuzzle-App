@@ -11,7 +11,6 @@ class home extends Component {
   componentDidMount(){
     axios.get('/puzzlepieces')
       .then(res => {
-        console.log(res.data)
         this.setState({
           puzzlepieces: res.data
         });
@@ -20,7 +19,9 @@ class home extends Component {
   }
   render() {
     let recentPuzzlepiecesMarkup = this.state.puzzlepieces ? (
-      this.state.puzzlepieces.map(puzzlepiece => <Puzzlepiece puzzlepiece={puzzlepiece}/>)
+      this.state.puzzlepieces.map(puzzlepiece => (
+        <Puzzlepiece key={puzzlepiece.puzzlpieceId} puzzlepiece={puzzlepiece}/>
+      ))
     ) : <p>Unpuzzling...</p>
     return (
       <Grid container spacing={2}>
