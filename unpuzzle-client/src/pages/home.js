@@ -8,7 +8,7 @@ class home extends Component {
   state = {
     puzzlepieces: null
   }
-  componentDidMount(){
+  componentDidMount() {
     axios.get('/puzzlepieces')
       .then(res => {
         this.setState({
@@ -20,7 +20,7 @@ class home extends Component {
   render() {
     let recentPuzzlepiecesMarkup = this.state.puzzlepieces ? (
       this.state.puzzlepieces.map(puzzlepiece => (
-        <Puzzlepiece key={puzzlepiece.puzzlpieceId} puzzlepiece={puzzlepiece}/>
+        <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />
       ))
     ) : <p>Unpuzzling...</p>
     return (
