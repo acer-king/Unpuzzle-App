@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// Redux
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
   ...theme.themeStyle,
@@ -22,34 +25,16 @@ class login extends Component {
     this.state = {
       email: '',
       password: '',
-      loading: false,
       errors: {},
     };
   }
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({
-      loading: true,
-    });
     const userData = {
       email: this.state.email,
       password: this.state.password,
     };
-    axios
-      .post('/login', userData)
-      .then((res) => {
-        localStorage.setItem('FirebaseIdToken', `Bearer ${res.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push('/'); // redirect to homepage after login
-      })
-      .catch((err) => {
-        this.setState({
-          errors: err.response.data,
-          loading: false,
-        });
-      });
+    this.props.loginUser(userData, this.props.history);
   };
   handleChange = (event) => {
     this.setState({
@@ -57,7 +42,10 @@ class login extends Component {
     });
   };
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
     // const classes = this.props.classes
     const { errors, loading } = this.state;
     return (
@@ -124,9 +112,24 @@ class login extends Component {
 
 login.propTypes = {
   classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.func.isRequired,
+  UI: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(login);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  loginUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(login));
 
 /*
 Concepts
