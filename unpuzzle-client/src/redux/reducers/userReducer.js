@@ -1,11 +1,11 @@
 import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
-import { SET_UNAUTHENTICATED } from './types';
+import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from '../types';
 
 const initialState = {
   authenticated: false,
   credentials: {},
   like: [],
-  notifications,
+  notifications: [],
 };
 
 export default function (state = initialState, action) {
