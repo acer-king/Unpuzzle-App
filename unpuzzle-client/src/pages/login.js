@@ -1,27 +1,27 @@
-import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-import PropTypes from "prop-types";
-import AppIcon from "../images/up-logo.png";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
+import AppIcon from '../images/up-logo.png';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 // MUI Stuff
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
-  ...theme,
+  ...theme.themeStyle,
 });
 
 class login extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       loading: false,
       errors: {},
     };
@@ -36,13 +36,13 @@ class login extends Component {
       password: this.state.password,
     };
     axios
-      .post("/login", userData)
+      .post('/login', userData)
       .then((res) => {
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+        localStorage.setItem('FirebaseIdToken', `Bearer ${res.data.token}`);
         this.setState({
           loading: false,
         });
-        this.props.history.push("/"); // redirect to homepage after login
+        this.props.history.push('/'); // redirect to homepage after login
       })
       .catch((err) => {
         this.setState({

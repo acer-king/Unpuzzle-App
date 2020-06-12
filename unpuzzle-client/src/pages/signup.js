@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
-  ...theme,
+  ...theme.themeStyle,
 });
 
 class signup extends Component {
@@ -42,7 +42,7 @@ class signup extends Component {
     axios
       .post('/signup', newUserData)
       .then((res) => {
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
+        localStorage.setItem('FirebaseIdToken', `Bearer ${res.data.token}`);
         this.setState({
           loading: false,
         });
