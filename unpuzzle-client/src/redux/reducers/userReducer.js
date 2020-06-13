@@ -9,6 +9,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case SET_AUTHENTICATED:
       return {
@@ -21,6 +22,9 @@ export default function (state = initialState, action) {
       return {
         authenticated: true,
         ...action.payload,
+        // credentials: action.payload.credentials,
+        // like: action.payload.like,
+        // notifications: action.payload.notifications,
       };
     default:
       return state;
