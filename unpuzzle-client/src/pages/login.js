@@ -123,7 +123,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  loginUser,
+  loginUser // same thing as doing loginUser: loginUser; the key in the state would be called loginUser and the value would be the function that we imported from userActions.js
 };
 
 export default connect(
