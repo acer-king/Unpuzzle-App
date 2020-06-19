@@ -1,4 +1,4 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => (dispatch) => {
@@ -6,9 +6,7 @@ export const loginUser = (userData, history) => (dispatch) => {
   axios
     .post('/login', userData)
     .then((res) => {
-      const FirebaseIdToken = `Bearer ${res.data.token}`;
-      localStorage.setItem('FirebaseIdToken', `Bearer ${res.data.token}`);
-      axios.defaults.headers.common['Authorization'] = FirebaseIdToken;
+      setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       history.push('/'); // redirect to homepage after login
@@ -21,7 +19,32 @@ export const loginUser = (userData, history) => (dispatch) => {
     });
 };
 
+export const signupUser = (newUserData, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post('/signup', newUserData)
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch(getUserData());
+      dispatch({ type: CLEAR_ERRORS });
+      history.push('/'); // redirect to homepage after login
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem('FirebaseIdToken');
+  delete axios.defaults.headers.common['Authorization'];
+  dispatch({ type: SET_UNAUTHENTICATED })
+}
+
 export const getUserData = () => (dispatch) => {
+  dispatch({ type: LOADING_USER })
   axios
     .get('/user')
     .then((res) => {
@@ -33,3 +56,9 @@ export const getUserData = () => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
+const setAuthorizationHeader = (token) => {
+  const FirebaseIdToken = `Bearer ${token}`;
+  localStorage.setItem('FirebaseIdToken', FirebaseIdToken);
+  axios.defaults.headers.common['Authorization'] = FirebaseIdToken;
+}
