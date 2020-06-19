@@ -146,7 +146,7 @@ class signup extends Component {
         </Grid>
         <Grid item sm />
       </Grid>
-    );
+    )
   }
 }
 
