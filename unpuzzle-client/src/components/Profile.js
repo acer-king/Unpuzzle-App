@@ -21,31 +21,7 @@ const styles = {
     padding: 20
   },
   profile: {
-    '& .image-wrapper': {
-      textAlign: 'center',
-      position: 'relative',
-      '& button': {
-        position: 'absolute',
-        top: '80%',
-        left: '70%'
-      }
-    },
-    '& .profile-image': {
-      width: 200,
-      height: 200,
-      objectFit: 'cover',
-      maxWidth: '100%',
-      borderRadius: '50%'
-    },
-    '& .profile-details': {
-      textAlign: 'center',
-      '& span, svg': {
-        verticalAlign: 'middle'
-      },
-      '& a': {
-        color: '#00bcd4'
-      }
-    },
+    textAlign: "center",
     '& hr': {
       border: 'none',
       margin: '0 0 10px 0'
@@ -54,6 +30,32 @@ const styles = {
       '&:hover': {
         cursor: 'pointer'
       }
+    }
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    objectFit: 'cover',
+    maxWidth: '100%',
+    borderRadius: '50%'
+  },
+  imageWrapper: {
+    textAlign: 'center',
+    position: 'relative',
+    '& button': {
+      position: 'absolute',
+      top: '80%',
+      left: '70%'
+    }
+  },
+  profileDetails: {
+    textAlign: 'center',
+    '& span, svg': {
+      verticalAlign: 'middle'
+    },
+    '& a': {
+      color: '#00bcd4',
+      verticalAlign: 'middle'
     }
   },
   buttons: {
@@ -65,16 +67,22 @@ const styles = {
 };
 
 class Profile extends Component {
+  handleImageChange = (event) => {
+    const image = event.target.files[0];
+    // send to server
+    
+  }
   render() {
       const { classes, user: { credentials: { handle, createdAt, imageUrl, bio, website, location }, loading, authenticated }} = this.props;
       let profileMarkup = !loading ? (authenticated ? (
         <Paper className={classes.paper}>
           <div className={classes.profile}>
-            <div class="image-wrapper">
-              <img src={imageUrl} alt="profile" className="profile-image"/>
+            <div className={classes.imageWrapper}>
+              <img src={imageUrl} alt="profile" className={classes.profileImage}/>
+              <input type="file" id="imageInput" onChange={this.handleImageChange}/>
             </div>
             <hr />
-            <div class="profile-details"></div>
+            <div className={classes.profileDetails}>
             <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">
               @{handle}
             </MuiLink>
@@ -93,10 +101,12 @@ class Profile extends Component {
                 <a href={website} target="_blank" rel="noopener noreferrer">
                   {' '}{website}
                 </a>
+                <hr />
               </Fragment>
             )}
             <CalendarToday color="primary"/>{' '}
             <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
+            </div>
           </div>
         </Paper>
       ) : (
