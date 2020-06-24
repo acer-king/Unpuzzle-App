@@ -1,4 +1,4 @@
-import { SET_PUZZLEPIECES, LOADING_DATA, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE } from '../types';
+import { SET_PUZZLEPIECES, POST_PUZZLEPIECE, LOADING_DATA, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, DELETE_PUZZLEPIECE, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
 import axios from 'axios';
 
 // Get all puzzlepieces
@@ -15,6 +15,25 @@ export const getPuzzlepieces = () => (dispatch) => {
       dispatch({
         type: SET_PUZZLEPIECES,
         payload: []
+      })
+    })
+}
+
+// Post a Puzzlepiece
+export const postPuzzlepiece = (newPuzzlepiece) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios.post('/puzzlepiece', newPuzzlepiece)
+    .then(res => {
+      dispatch({
+        type: POST_PUZZLEPIECE,
+        payload: res.data
+      })
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
       })
     })
 }
@@ -40,4 +59,15 @@ export const unlikePuzzlepiece = (puzzlepieceId) => (dispatch) => {
       })
     })
     .catch(err => console.log(err))
+};
+
+export const deletePuzzlepiece = (puzzlepieceId) => (dispatch) => {
+  axios.delete(`/puzzlepiece/${puzzlepieceId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_PUZZLEPIECE,
+        payload: puzzlepieceId
+      })
+    })
+    .catch(err => console.log(err));
 }

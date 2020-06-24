@@ -1,4 +1,4 @@
-import { SET_PUZZLEPIECES, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA } from '../types';
+import { SET_PUZZLEPIECES, POST_PUZZLEPIECE, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA, DELETE_PUZZLEPIECE } from '../types';
 
 const initialState = {
   puzzlepieces: [],
@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export default function(state = initialState, action){
+  let index;
   switch(action.type){
     case LOADING_DATA:
       return {
@@ -21,11 +22,27 @@ export default function(state = initialState, action){
       }
     case LIKE_PUZZLEPIECE:
     case UNLIKE_PUZZLEPIECE:
-      let index = state.puzzlepieces.findIndex((puzzlepiece) => puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId);
+      index = state.puzzlepieces.findIndex((puzzlepiece) => puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId);
       state.puzzlepieces[index] = action.payload;
       return {
         ...state
       };
+    case DELETE_PUZZLEPIECE:
+      index = state.puzzlepieces.findIndex(puzzlepiece => puzzlepiece.puzzlepieceId === action.payload);
+      state.puzzlepieces.splice(index, 1);
+      console.log(action.payload)
+      console.log(index)
+      return {
+        ...state
+      }
+    case POST_PUZZLEPIECE:
+      return {
+        ...state,
+        puzzlepieces: [
+          action.payload,
+          ...state.puzzlepieces
+        ]
+      }
     default:
       return state;
   }

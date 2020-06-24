@@ -4,7 +4,7 @@ const initialState = {
   authenticated: false,
   loading: false,
   credentials: {},
-  like: [],
+  likes: [],
   notifications: [],
 };
 
@@ -21,11 +21,7 @@ export default function (state = initialState, action) {
       return {
         authenticated: true,
         loading: false,
-        ...action.payload,
-        // ...action.payload can be written as:
-        // credentials: action.payload.credentials,
-        // like: action.payload.like,
-        // notifications: action.payload.notifications,
+        ...action.payload
       };
     case LOADING_USER:
       return {

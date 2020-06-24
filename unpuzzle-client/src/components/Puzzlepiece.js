@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
+import DeletePuzzlepiece from './DeletePuzzlepiece';
 // MUI Stuff
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -22,6 +23,7 @@ import { likePuzzlepiece, unlikePuzzlepiece } from '../redux/actions/dataActions
 
 const styles = {
   card: {
+    position: 'relative',
     display: "flex",
     marginBottom: 20,
   },
@@ -65,7 +67,10 @@ class Puzzlepiece extends Component {
         commentCount,
       },
       user: {
-        authenticated
+        authenticated,
+        credentials: {
+          handle
+        }
       }
     } = this.props;
     // const classes = this.props.classes *Destructuring concept*
@@ -85,7 +90,10 @@ class Puzzlepiece extends Component {
           <FavoriteBorder color="primary"/>
         </MyButton>
       )
-    )
+    );
+    const deleteButton = authenticated && userHandle === handle ? (
+      <DeletePuzzlepiece puzzlepieceId={puzzlepieceId}/>
+    ) : null;
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -102,6 +110,7 @@ class Puzzlepiece extends Component {
           >
             {userHandle}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
