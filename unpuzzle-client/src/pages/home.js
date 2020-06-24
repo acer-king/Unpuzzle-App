@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
 
 import Puzzlepiece from '../components/Puzzlepiece';
 import Profile from '../components/Profile';
 
+import { connect } from 'react-redux';
+import { getPuzzlepieces } from '../redux/actions/dataActions';
+
 class home extends Component {
-  state = {
-    puzzlepieces: null
-  }
   componentDidMount() {
-    axios.get('/puzzlepieces')
-      .then(res => {
-        this.setState({
-          puzzlepieces: res.data
-        });
-      })
-      .catch(err => console.log(err));
+    this.props.getPuzzlepieces();
   }
   render() {
-    let recentPuzzlepiecesMarkup = this.state.puzzlepieces ? (
-      this.state.puzzlepieces.map(puzzlepiece => (
+    const { puzzlepieces, loading } = this.props.data;
+    let recentPuzzlepiecesMarkup = !loading ? (
+      puzzlepieces.map(puzzlepiece =>
         <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />
-      ))
+      )
     ) : <p>Unpuzzling...</p>
     return (
       <Grid container spacing={2}>
@@ -37,4 +32,13 @@ class home extends Component {
   }
 }
 
-export default home;
+home.propTypes = {
+  getPuzzlepieces: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  data: state.data
+})
+
+export default connect(mapStateToProps, { getPuzzlepieces })(home);
