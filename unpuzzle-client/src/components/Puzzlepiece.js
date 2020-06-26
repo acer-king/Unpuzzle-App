@@ -6,6 +6,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
 import DeletePuzzlepiece from './DeletePuzzlepiece';
+import PuzzlepieceDialog from './PuzzlepieceDialog';
+import LikeButton from './LikeButton';
 // MUI Stuff
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -13,11 +15,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 // Icons
 import ChatIcon from '@material-ui/icons/Chat';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 //Redux
 import { connect } from 'react-redux';
-import { likePuzzlepiece, unlikePuzzlepiece } from '../redux/actions/dataActions';
 
 
 
@@ -37,22 +36,6 @@ const styles = {
 };
 
 class Puzzlepiece extends Component {
-  likedPuzzlepiece = () => {
-    if (
-      this.props.user.likes && 
-      this.props.user.likes.find(
-        like => like.puzzlepieceId === this.props.puzzlepiece.puzzlepieceId
-        )
-      )
-      return true;
-      else return false
-  };
-  likePuzzlepiece = () => {
-    this.props.likePuzzlepiece(this.props.puzzlepiece.puzzlepieceId)
-  }
-  unlikePuzzlepiece = () => {
-    this.props.unlikePuzzlepiece(this.props.puzzlepiece.puzzlepieceId)
-  }
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -74,23 +57,6 @@ class Puzzlepiece extends Component {
       }
     } = this.props;
     // const classes = this.props.classes *Destructuring concept*
-    const likeButton = !authenticated ? (
-      <MyButton tip="Like">
-        <Link to="/login">
-          <FavoriteBorder color="primary"/>
-        </Link>
-      </MyButton>
-    ) : (
-      this.likedPuzzlepiece() ? (
-        <MyButton tip="Undo like" onClick={this.unlikePuzzlepiece}>
-          <FavoriteIcon color="primary"/>
-        </MyButton>
-      ) : (
-        <MyButton tip="Like" onClick={this.likePuzzlepiece}>
-          <FavoriteBorder color="primary"/>
-        </MyButton>
-      )
-    );
     const deleteButton = authenticated && userHandle === handle ? (
       <DeletePuzzlepiece puzzlepieceId={puzzlepieceId}/>
     ) : null;
@@ -115,12 +81,13 @@ class Puzzlepiece extends Component {
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Typography variant="body1">{body}</Typography>
-          {likeButton}
+          <LikeButton puzzlepieceId={puzzlepieceId} />
           <span>{likeCount} Likes</span>
           <MyButton tip="comments">
             <ChatIcon color="primary"/>
           </MyButton>
           <span>{commentCount} comments</span>
+          <PuzzlepieceDialog puzzlepieceId={puzzlepieceId} userHandle={userHandle}/>
         </CardContent>
       </Card>
     );
@@ -128,8 +95,6 @@ class Puzzlepiece extends Component {
 }
 
 Puzzlepiece.propTypes = {
-  likePuzzlepiece: PropTypes.func.isRequired,
-  unlikePuzzlepiece: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   puzzlepiece: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
@@ -139,9 +104,5 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-const mapActionsToProps = {
-  likePuzzlepiece,
-  unlikePuzzlepiece
-}
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Puzzlepiece));
+export default connect(mapStateToProps)(withStyles(styles)(Puzzlepiece));

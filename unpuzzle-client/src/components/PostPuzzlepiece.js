@@ -13,12 +13,15 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 // Redux
 import { connect } from 'react-redux';
-import { postPuzzlepiece } from '../redux/actions/dataActions';
+import { postPuzzlepiece, clearErrors } from '../redux/actions/dataActions';
 
 const styles = theme => ({
   ...theme.themeStyle,
   submitButton: {
-    position: 'relative'
+    position: 'relative',
+    float: 'right',
+    marginTop: 5,
+    marginBottom: 10
   },
   progressSpinner: {
     position: 'absolute'
@@ -43,14 +46,14 @@ class PostPuzzlepiece extends Component {
       })
     };
     if(!nextProps.UI.errors && !nextProps.UI.loading){
-      this.setState({ body: '' });
-      this.handleClose();
+      this.setState({ body: '', open: false, errors: {} });
     }
   }
   handleOpen = () => {
     this.setState({ open: true })
   }
   handleClose = () => {
+    this.props.clearErrors();
     this.setState({ open: false, errors: {} });
   };
   handleChange = (event) => {
@@ -69,7 +72,11 @@ class PostPuzzlepiece extends Component {
           <AddIcon />
         </MyButton>
         <Dialog
-        open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">
+          open={this.state.open} 
+          onClose={this.handleClose} 
+          fullWidth 
+          maxWidth="sm"
+        >
           <MyButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
             <CloseIcon/>
           </MyButton>
@@ -106,6 +113,7 @@ class PostPuzzlepiece extends Component {
 
 PostPuzzlepiece.propTypes = {
   postPuzzlepiece: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired
 };
 
@@ -113,4 +121,4 @@ const mapStateToProps = (state) => ({
   UI: state.UI
 })
 
-export default connect(mapStateToProps, { postPuzzlepiece })(withStyles(styles)(PostPuzzlepiece))
+export default connect(mapStateToProps, { postPuzzlepiece, clearErrors })(withStyles(styles)(PostPuzzlepiece))

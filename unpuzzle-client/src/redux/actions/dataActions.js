@@ -1,4 +1,4 @@
-import { SET_PUZZLEPIECES, POST_PUZZLEPIECE, LOADING_DATA, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, DELETE_PUZZLEPIECE, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from '../types';
+import { SET_PUZZLEPIECES, POST_PUZZLEPIECE, LOADING_DATA, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, DELETE_PUZZLEPIECE, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI, SET_PUZZLEPIECE } from '../types';
 import axios from 'axios';
 
 // Get all puzzlepieces
@@ -18,7 +18,18 @@ export const getPuzzlepieces = () => (dispatch) => {
       })
     })
 }
-
+export const getPuzzlepiece = (puzzlepieceId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios.get(`/puzzlepiece/${puzzlepieceId}`)
+    .then(res => {
+      dispatch({ 
+        type: SET_PUZZLEPIECE,
+        payload: res.data
+      });
+      dispatch({ type: STOP_LOADING_UI })
+    })
+    .catch(err => console.log(err));
+}
 // Post a Puzzlepiece
 export const postPuzzlepiece = (newPuzzlepiece) => (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -70,4 +81,8 @@ export const deletePuzzlepiece = (puzzlepieceId) => (dispatch) => {
       })
     })
     .catch(err => console.log(err));
+};
+
+export const clearErrors = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 }

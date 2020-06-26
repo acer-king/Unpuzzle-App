@@ -1,4 +1,4 @@
-import { SET_PUZZLEPIECES, POST_PUZZLEPIECE, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA, DELETE_PUZZLEPIECE } from '../types';
+import { SET_PUZZLEPIECES, SET_PUZZLEPIECE, POST_PUZZLEPIECE, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA, DELETE_PUZZLEPIECE } from '../types';
 
 const initialState = {
   puzzlepieces: [],
@@ -20,10 +20,18 @@ export default function(state = initialState, action){
         puzzlepieces: action.payload,
         loading: false
       }
+    case SET_PUZZLEPIECE:
+      return {
+        ...state,
+        puzzlepiece: action.payload
+      }
     case LIKE_PUZZLEPIECE:
     case UNLIKE_PUZZLEPIECE:
       index = state.puzzlepieces.findIndex((puzzlepiece) => puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId);
       state.puzzlepieces[index] = action.payload;
+      if(state.puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId){
+        state.puzzlepiece = action.payload;
+      }
       return {
         ...state
       };
