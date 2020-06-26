@@ -26,7 +26,7 @@ const styles = theme => ({
   closeButton: {
     position: 'absolute',
     left: '90%',
-    top: '10%'
+    top: '3%'
   }
 })
 
