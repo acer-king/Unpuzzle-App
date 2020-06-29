@@ -1,4 +1,4 @@
-import { SET_PUZZLEPIECES, SET_PUZZLEPIECE, POST_PUZZLEPIECE, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA, DELETE_PUZZLEPIECE } from '../types';
+import { SET_PUZZLEPIECES, SET_PUZZLEPIECE, POST_PUZZLEPIECE, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, LOADING_DATA, DELETE_PUZZLEPIECE, SUBMIT_COMMENT } from '../types';
 
 const initialState = {
   puzzlepieces: [],
@@ -50,6 +50,14 @@ export default function(state = initialState, action){
           action.payload,
           ...state.puzzlepieces
         ]
+      }
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        puzzlepiece: {
+          ...state.puzzlepiece,
+          comments: [action.payload, ...state.puzzlepiece.comments]
+        }
       }
     default:
       return state;

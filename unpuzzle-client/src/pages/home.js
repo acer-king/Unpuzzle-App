@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-
-import Puzzlepiece from '../components/Puzzlepiece';
-import Profile from '../components/Profile';
+import Puzzlepiece from '../components/puzzlepiece/Puzzlepiece';
+import Profile from '../components/profile/Profile';
 
 import { connect } from 'react-redux';
 import { getPuzzlepieces } from '../redux/actions/dataActions';

@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import MyButton from '../util/MyButton';
+import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
+import Comments from './Comments';
+import CommentForm from './CommentForm';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 // MUI Stuff
@@ -17,14 +19,10 @@ import UnfoldMore from '@material-ui/icons/UnfoldMore';
 import ChatIcon from '@material-ui/icons/Chat';
 // Redux
 import { connect } from 'react-redux';
-import { getPuzzlepiece } from '../redux/actions/dataActions';
+import { getPuzzlepiece, clearErrors } from '../../redux/actions/dataActions';
 
 const styles = theme => ({
   ...theme.themeStyle,
-  invisibleSeperator: {
-    border: 'none',
-    margin: 4
-  },
   profileImage: {
     maxWidth: 200,
     height: 200,
@@ -59,6 +57,7 @@ class PuzzlepieceDialog extends Component {
   };
   handleClose = () => {
     this.setState({ open: false });
+    this.props.clearErrors();
   }
   render() {
     const { classes, 
@@ -70,6 +69,7 @@ class PuzzlepieceDialog extends Component {
         commentCount, 
         userImage, 
         userHandle, 
+        comments
       }, 
       UI: { loading } 
     } = this.props;
@@ -78,7 +78,7 @@ class PuzzlepieceDialog extends Component {
       <div className={classes.spinnerDiv}>
         <CircularProgress size={50} thickness={2}/>
       </div>
-    ) : (
+    ) : ( 
       <Grid container spacing={4}>
         <Grid item sm={5}>
           <img src={userImage} alt="Profile" className={classes.profileImage}/>
@@ -105,6 +105,9 @@ class PuzzlepieceDialog extends Component {
           </MyButton>
           <span>{commentCount} comments</span>
         </Grid>
+        <hr className={classes.visibleSeparator}/>
+        <CommentForm puzzlepieceId={puzzlepieceId} />
+        <Comments comments={comments}/>
       </Grid>
     )
     return (
@@ -131,6 +134,7 @@ class PuzzlepieceDialog extends Component {
 }
 
 PuzzlepieceDialog.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   getPuzzlepiece: PropTypes.func.isRequired,
   puzzlepieceId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
@@ -144,7 +148,8 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-  getPuzzlepiece
+  getPuzzlepiece,
+  clearErrors
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PuzzlepieceDialog))
