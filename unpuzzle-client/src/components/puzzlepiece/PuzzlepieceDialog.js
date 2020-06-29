@@ -152,4 +152,4 @@ const mapActionsToProps = {
   clearErrors
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PuzzlepieceDialog))
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(PuzzlepieceDialog));

@@ -100,6 +100,23 @@ export const deletePuzzlepiece = (puzzlepieceId) => (dispatch) => {
     .catch(err => console.log(err));
 };
 
+export const getUserData = (userHandle) => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios.get(`/user/${userHandle}`)
+    .then(res => {
+      dispatch({
+        type: SET_PUZZLEPIECES,
+        payload: res.data.puzzlepieces
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_PUZZLEPIECES,
+        payload: null
+      });
+    });
+}
+
 export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 } // This is an action creator - when you create a function that dispatches an action
