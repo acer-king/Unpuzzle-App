@@ -87,7 +87,7 @@ class Puzzlepiece extends Component {
             <ChatIcon color="primary"/>
           </MyButton>
           <span>{commentCount} comments</span>
-          <PuzzlepieceDialog puzzlepieceId={puzzlepieceId} userHandle={userHandle}/>
+          <PuzzlepieceDialog puzzlepieceId={puzzlepieceId} userHandle={userHandle} openDialog={this.props.openDialog}/>
         </CardContent>
       </Card>
     );
@@ -97,7 +97,8 @@ class Puzzlepiece extends Component {
 Puzzlepiece.propTypes = {
   user: PropTypes.object.isRequired,
   puzzlepiece: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool
 }
 
 const mapStateToProps = state => ({

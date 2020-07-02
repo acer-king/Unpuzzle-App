@@ -11,13 +11,20 @@ import { getUserData } from '../redux/actions/dataActions';
 
 class user extends Component {
   state = {
-    profile: null
+    profile: null,
+    puzzlepieceIdParam: null
   }
   componentDidMount() {
     const handle = this.props.match.params.handle;
+    const puzzlepieceId = this.props.match.params.puzzlepieceId;
+
+    if(puzzlepieceId) this.setState({ puzzlepieceIdParam: puzzlepieceId });
+
+
     this.props.getUserData(handle);
     axios.get(`/user/${handle}`)
       .then(res => {
+        console.log(res.data.user)
         this.setState({
           profile: res.data.user
         })
@@ -26,12 +33,19 @@ class user extends Component {
   }
   render() {
     const { puzzlepieces, loading } = this.props.data;
+    const { puzzlepieceIdParam } = this.state;
     const puzzlepiecesMarkup = loading ? (
       <p>Loading data...</p>
     ) : puzzlepieces === null ? (
       <p>No puzzlepieces </p>
-    ) : (
+    ) : !puzzlepieceIdParam ? (
       puzzlepieces.map(puzzlepiece => <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />)
+    ) : (
+      puzzlepieces.map(puzzlepiece => {
+        if(puzzlepiece.puzzlepieceId !== puzzlepieceIdParam)
+          return <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />
+        else return <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} openDialog/>
+      })
     )
     return (
       <Grid container spacing={2}>

@@ -51,6 +51,11 @@ class PuzzlepieceDialog extends Component {
   state = {
     open: false
   }
+  componentDidMount(){
+    if(this.props.openDialog){
+      this.handleOpen();
+    }
+  }
   handleOpen = () => {
     this.setState({ open: true });
     this.props.getPuzzlepiece(this.props.puzzlepieceId);

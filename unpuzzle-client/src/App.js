@@ -45,21 +45,10 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={home} />
-              <AuthRoute
-                exact
-                path="/login"
-                component={login}
-              />
-              <AuthRoute
-                exact
-                path="/signup"
-                component={signup}
-              />
-              <AuthRoute
-                exact
-                path="/users/:handle"
-                component={user}
-              />
+              <AuthRoute exact path="/login" component={login} />
+              <AuthRoute exact path="/signup" component={signup} />
+              <Route exact path="/users/:handle" component={user} />
+              <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
             </Switch>
           </div>
         </Router>
