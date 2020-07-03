@@ -75,8 +75,18 @@ export const editUserDetails = (userDetails) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
+export const markNotificationsRead = (notifications) => dispatch => {
+  axios.post('/notifications', notificationIds)
+    .then(res => {
+      dispatch({
+        type: MARK_NOTIFICATIONS_READ
+      })
+    })
+    .catch(err => console.log(err));
+}
+
 const setAuthorizationHeader = (token) => {
   const FirebaseIdToken = `Bearer ${token}`;
   localStorage.setItem('FirebaseIdToken', FirebaseIdToken);
   axios.defaults.headers.common['Authorization'] = FirebaseIdToken;
-}
+};

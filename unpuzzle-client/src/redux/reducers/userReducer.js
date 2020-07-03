@@ -1,4 +1,4 @@
-import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE } from '../types';
+import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER, LIKE_PUZZLEPIECE, UNLIKE_PUZZLEPIECE, MARK_NOTIFICATIONS_READ } from '../types';
 
 const initialState = {
   authenticated: false,
@@ -46,6 +46,11 @@ export default function (state = initialState, action) {
             (like) => like.puzzlepieceId !== action.payload.puzzlepieceId
           )
       };
+    case MARK_NOTIFICATIONS_READ:
+      state.notifications.forEach(notification => notification.read = true);
+      return {
+        ...state
+      }
     default:
       return state;
   }
