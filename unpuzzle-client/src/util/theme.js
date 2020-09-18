@@ -51,5 +51,52 @@ export default {
       borderBottom: '1px solid rgba(0,0,0,0.1)',
       marginBottom: 20
     }
+  },
+  paper: {
+    padding: 20
+  },
+  profile: {
+    textAlign: "left",
+    '& hr': {
+      border: 'none',
+      margin: '0 0 10px 0'
+    }
+  },
+  button: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    objectFit: 'cover',
+    maxWidth: '100%',
+    borderRadius: '50%'
+  },
+  imageWrapper: {
+    textAlign: 'center',
+    position: 'relative',
+    '& button': {
+      position: 'absolute',
+      top: '80%',
+      left: '70%'
+    }
+  },
+  profileDetails: {
+    textAlign: 'center',
+    '& span, svg': {
+      verticalAlign: 'middle'
+    },
+    '& a': {
+      color: '#00bcd4',
+      verticalAlign: 'middle'
+    }
+  },
+  buttons: {
+    textAlign: 'center',
+    '& a': {
+      margin: '20px 10px'
+    }
   }
 };

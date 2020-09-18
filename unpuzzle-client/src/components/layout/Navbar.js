@@ -30,15 +30,27 @@ class Navbar extends Component {
             </Fragment>
           ) : (
             <Fragment>
+              <Button color="inherit" component={Link} to="/">
+                Home
+              </Button>
               <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
-          <Button color="inherit" component={Link} to="/">
-            Home
-          </Button>
-          <Button color="inherit" component={Link} to="/signup">
-            Signup
-          </Button>
+                Tutoring
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Puzzle World
+              </Button>
+              <Button color="inherit" component={Link} to="/login">
+                Innovation in Education
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Schedule A Session
+              </Button>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Signup
+              </Button>
             </Fragment>
           )}
         </Toolbar>

@@ -49,7 +49,7 @@ exports.postOnePuzzlePiece = (req, res) => {
     .add(newPuzzlePiece)
     .then(doc => {
       const resPuzzlepiece = newPuzzlePiece;
-      resPuzzlepiece.screamId = doc.id;
+      resPuzzlepiece.puzzlepieceId = doc.id;
       res.json(resPuzzlepiece);
     })
     .catch(err => {

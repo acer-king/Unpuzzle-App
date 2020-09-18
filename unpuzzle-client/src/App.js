@@ -23,6 +23,9 @@ import axios from 'axios';
 
 const theme = createMuiTheme(themeFile);
 
+axios.defaults.baseURL = 
+  'https://us-east1-unpuzzle-ad500.cloudfunctions.net/api';
+
 const token = localStorage.FirebaseIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);

@@ -5,6 +5,9 @@ import Puzzlepiece from '../components/puzzlepiece/Puzzlepiece';
 import StaticProfile from '../components/profile/StaticProfile';
 import Grid from '@material-ui/core/Grid';
 
+import PuzzlepieceSkeleton from '../util/PuzzlepieceSkeleton';
+import ProfileSkeleton from '../util/ProfileSkeleton';
+
 import { connect } from 'react-redux';
 import { getUserData } from '../redux/actions/dataActions';
 
@@ -35,7 +38,7 @@ class user extends Component {
     const { puzzlepieces, loading } = this.props.data;
     const { puzzlepieceIdParam } = this.state;
     const puzzlepiecesMarkup = loading ? (
-      <p>Loading data...</p>
+      <PuzzlepieceSkeleton/>
     ) : puzzlepieces === null ? (
       <p>No puzzlepieces </p>
     ) : !puzzlepieceIdParam ? (
@@ -54,7 +57,7 @@ class user extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <p>Loading profile...</p>
+            <ProfileSkeleton/>
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}
