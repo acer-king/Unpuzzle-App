@@ -14,8 +14,14 @@ export default {
     },
   },
   themeStyle: {
-    typoography: {
+    typography: {
       useNextVariants: true,
+      tab: {
+        fontFamily: "Montserrat",
+        textTransform: "none",
+        fontWeight: 700,
+        fontSize: ".9rem"
+      }
     },
     form: {
       textAlign: 'center',

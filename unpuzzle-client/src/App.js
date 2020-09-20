@@ -18,6 +18,9 @@ import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 import user from './pages/user';
+import tutoring from './pages/tutoring';
+import puzzleworld from './pages/puzzleworld';
+import innovationineducation from './pages/innovationineducation';
 
 import axios from 'axios';
 
@@ -48,6 +51,9 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={home} />
+              <Route exact path="/tutoring" component={tutoring} />
+              <Route exact path="/puzzleworld" component={puzzleworld} />
+              <Route exact path="/innovationineducation" component={innovationineducation} />
               <AuthRoute exact path="/login" component={login} />
               <AuthRoute exact path="/signup" component={signup} />
               <Route exact path="/users/:handle" component={user} />
