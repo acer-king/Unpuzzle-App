@@ -4,20 +4,30 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import MyButton from '../../util/MyButton';
 import PostPuzzlepiece from '../puzzlepiece/PostPuzzlepiece';
-import Notifications from './Notifications'
+import Notifications from './Notifications';
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
+// Logo
+import upLogo from '../../images/upLogo.svg';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+  logo: {
+    height: "7em"
+  }
+}))
 
 class Navbar extends Component {
   render() {
     const { authenticated } = this.props;
     return (
       <AppBar>
-        <Toolbar className="nav-container">
+        <Toolbar disableGutters className="nav-container">
+          <img alt="Company Logo" src={upLogo} className="headerLogo" />
           {authenticated ? (
             <Fragment>
               <PostPuzzlepiece/>
