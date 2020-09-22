@@ -12,6 +12,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
@@ -52,10 +54,22 @@ const styles = theme => ({
 const Navbar = (props) => {
     const { classes, authenticated } = props;
     const [value, setValue] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handleChange = (e, value) => {
       setValue(value)
     };
+
+    const handleClick = (e) => {
+      setAnchorEl(e.currentTarget)
+      setOpen(true)
+    }
+
+    const handleClose = (e) => {
+      setAnchorEl(null)
+      setOpen(false)
+    }
 
     useEffect(() => {
       if (window.location.pathname === "/" && value !== 0) {
@@ -98,7 +112,15 @@ const Navbar = (props) => {
             <Fragment>
               <Tabs value={value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
                 <Tab className={classes.tab} component={Link} to="/" label="Home" />
-                <Tab className={classes.tab} component={Link} to="tutoring" label="Tutoring" />
+                <Tab 
+                  aria-owns={anchorEl ? "simple-menu" : undefined }
+                  aria-haspopup={anchorEl ? true : undefined}
+                  className={classes.tab} 
+                  component={Link} 
+                  onMouseOver={event => handleClick(event)}
+                  to="tutoring" 
+                  label="Tutoring" 
+                />
                 <Tab className={classes.tab} component={Link} to="puzzleworld" label="Puzzle World" />
                 <Tab className={classes.tab} component={Link} to="innovationineducation" label="Innovation in Education" />
                 <Tab className={classes.tab} component={Link} to="login" label="Login" />
@@ -107,12 +129,11 @@ const Navbar = (props) => {
               <Button variant="contained" color="secondary" className={classes.button}>
                 Book A Tutoring Session
               </Button>
-              {/* <Button color="inherit" component={Link} to="/login">
-                Login
-              </Button>
-              <Button color="inherit" component={Link} to="/signup">
-                Signup
-              </Button> */}
+              <Menu id="simple-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{onMouseLeave: handleClose}}>
+                <MenuItem onClick={handleClose}>Grade 6 to Grade 12</MenuItem>
+                <MenuItem onClick={handleClose}>Computer Programming</MenuItem>
+                <MenuItem onClick={handleClose}>Learn Relevant Skills</MenuItem>
+              </Menu>
             </Fragment>
           )}
         </Toolbar>
