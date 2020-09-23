@@ -19,6 +19,9 @@ import login from './pages/login';
 import signup from './pages/signup';
 import user from './pages/user';
 import tutoring from './pages/tutoring';
+import gradeschool from './pages/gradeschool';
+import computerprogramming from './pages/computerprogramming';
+import digitalskills from './pages/digitalskills';
 import puzzleworld from './pages/puzzleworld';
 import innovationineducation from './pages/innovationineducation';
 
@@ -52,6 +55,9 @@ function App() {
             <Switch>
               <Route exact path="/" component={home} />
               <Route exact path="/tutoring" component={tutoring} />
+              <Route exact path="/gradeschool" component={gradeschool} />
+              <Route exact path="/computerprogramming" component={computerprogramming} />
+              <Route exact path="/digitalskills" component={digitalskills} />
               <Route exact path="/puzzleworld" component={puzzleworld} />
               <Route exact path="/innovationineducation" component={innovationineducation} />
               <AuthRoute exact path="/login" component={login} />

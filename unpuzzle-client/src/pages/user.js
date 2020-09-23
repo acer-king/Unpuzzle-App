@@ -18,6 +18,7 @@ class user extends Component {
     puzzlepieceIdParam: null
   }
   componentDidMount() {
+    console.log(this.props)
     const handle = this.props.match.params.handle;
     const puzzlepieceId = this.props.match.params.puzzlepieceId;
 
@@ -27,7 +28,6 @@ class user extends Component {
     this.props.getUserData(handle);
     axios.get(`/user/${handle}`)
       .then(res => {
-        console.log(res.data.user)
         this.setState({
           profile: res.data.user
         })
@@ -41,8 +41,6 @@ class user extends Component {
       <PuzzlepieceSkeleton/>
     ) : puzzlepieces === null ? (
       <p>No puzzlepieces </p>
-    ) : !puzzlepieceIdParam ? (
-      puzzlepieces.map(puzzlepiece => <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />)
     ) : (
       puzzlepieces.map(puzzlepiece => {
         if(puzzlepiece.puzzlepieceId !== puzzlepieceIdParam)
@@ -50,6 +48,22 @@ class user extends Component {
         else return <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} openDialog/>
       })
     )
+    
+    //Removed !puzzlepieceIdParam ? ( ... ) from code above
+    // const puzzlepiecesMarkup = loading ? (
+    //   <PuzzlepieceSkeleton/>
+    // ) : puzzlepieces === null ? (
+    //   <p>No puzzlepieces </p>
+    // ) : !puzzlepieceIdParam ? (
+    //   puzzlepieces.map(puzzlepiece => <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />)
+    // ) : (
+    //   puzzlepieces.map(puzzlepiece => {
+    //     if(puzzlepiece.puzzlepieceId !== puzzlepieceIdParam)
+    //       return <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} />
+    //     else return <Puzzlepiece key={puzzlepiece.puzzlepieceId} puzzlepiece={puzzlepiece} openDialog/>
+    //   })
+    // )
+
     return (
       <Grid container spacing={2}>
         <Grid item sm={8} xs={12}>

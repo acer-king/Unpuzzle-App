@@ -47,6 +47,9 @@ const styles = theme => ({
   },
   appBarBG: {
     background: '#fefefe'
+  },
+  menu: {
+    backgroundColor: theme.palette.common.blue
   }
 
 })
@@ -129,10 +132,18 @@ const Navbar = (props) => {
               <Button variant="contained" color="secondary" className={classes.button}>
                 Book A Tutoring Session
               </Button>
-              <Menu id="simple-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{onMouseLeave: handleClose}}>
-                <MenuItem onClick={handleClose}>Grade 6 to Grade 12</MenuItem>
-                <MenuItem onClick={handleClose}>Computer Programming</MenuItem>
-                <MenuItem onClick={handleClose}>Learn Relevant Skills</MenuItem>
+              <Menu 
+                id="simple-menu" 
+                anchorEl={anchorEl} 
+                open={open} 
+                onClose={handleClose} 
+                MenuListProps={{onMouseLeave: handleClose}}
+                classes={{paper: classes.menu}}
+              >
+                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/tutoring">Tutoring</MenuItem>
+                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/gradeschool">Grade 6 to Grade 12</MenuItem>
+                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="computerprogramming">Computer Programming</MenuItem>
+                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="digitalskills">Digital Skills</MenuItem>
               </Menu>
             </Fragment>
           )}
