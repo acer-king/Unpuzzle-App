@@ -35,7 +35,8 @@ const styles = theme => ({
     ...theme.themeStyle.typography.tab,
     minWidth: 10,
     marginLeft: "25px",
-    color: 'black'
+    color: 'black',
+    opacity: 0.7
   },
   button: {
     borderRadius: "50px",
@@ -49,7 +50,16 @@ const styles = theme => ({
     background: '#fefefe'
   },
   menu: {
-    backgroundColor: theme.palette.common.blue
+    backgroundColor: "#fefefe",
+    borderRadius: "0"
+  },
+  menuItem: {
+    ...theme.themeStyle.typography.tab,
+    opacity: 0.7,
+    "&:hover": {
+      opacity: 1
+    }
+
   }
 
 })
@@ -59,6 +69,7 @@ const Navbar = (props) => {
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleChange = (e, value) => {
       setValue(value)
@@ -69,10 +80,35 @@ const Navbar = (props) => {
       setOpen(true)
     }
 
+    const handleMenuItemClick = (e, i) => {
+      setAnchorEl(null);
+      setOpen(false);
+      setSelectedIndex(i)
+    }
+
     const handleClose = (e) => {
       setAnchorEl(null)
       setOpen(false)
     }
+
+    const menuOptions = [
+      {
+        name: "Tutoring",
+        link: "/tutoring"
+      },
+      {
+        name: "Grade 6 to Grade 12",
+        link: "/gradeschool"
+      },
+      {
+        name: "Computer Programming",
+        link: "/computerprogramming"
+      },
+      {
+        name: "Digita Skills",
+        link: "/digitalskills"
+      }
+    ]
 
     useEffect(() => {
       if (window.location.pathname === "/" && value !== 0) {
@@ -87,7 +123,41 @@ const Navbar = (props) => {
         setValue(4)
       } else if (window.location.pathname === "/signup" && value !== 5) {
         setValue(5)
-      } 
+      }
+      
+      switch (window.location.pathname) {
+        case "/":
+          if (value !== 0) {
+            setValue(0);
+          }
+          break;
+        case "/tutoring":
+          if (value !== 1) {
+            setValue(1);
+            setSelectedIndex(0)
+          }
+          break;
+        case "/gradeschool":
+          if (value !== 1) {
+            setValue(1);
+            setSelectedIndex(1)
+          }
+          break;
+        case "/computerprogramming":
+          if (value !== 1) {
+            setValue(1);
+            setSelectedIndex(2);
+          }
+          break;
+        case "/digitalskills":
+          if (value !== 1) {
+            setValue(1)
+            setSelectedIndex(3)
+          }
+          break;        
+        default:
+          break;
+      }
     }, [value])
     return (
       <AppBar className={classes.appBarBG}>
@@ -139,11 +209,20 @@ const Navbar = (props) => {
                 onClose={handleClose} 
                 MenuListProps={{onMouseLeave: handleClose}}
                 classes={{paper: classes.menu}}
+                elevation={0}
               >
-                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/tutoring">Tutoring</MenuItem>
-                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="/gradeschool">Grade 6 to Grade 12</MenuItem>
-                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="computerprogramming">Computer Programming</MenuItem>
-                <MenuItem onClick={() => {handleClose(); setValue(1)}} component={Link} to="digitalskills">Digital Skills</MenuItem>
+                {menuOptions.map((option, i) => (
+                  <MenuItem
+                    key={option}
+                    component={Link} 
+                    to={option.link}
+                    classes={{root: classes.menuItem}}
+                    onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
+                    selected={i === selectedIndex && value === 1}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}  
               </Menu>
             </Fragment>
           )}

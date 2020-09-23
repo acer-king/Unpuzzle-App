@@ -19,7 +19,7 @@ export default {
       tab: {
         fontFamily: "Montserrat",
         textTransform: "none",
-        fontWeight: 700,
+        fontWeight: 600,
         fontSize: ".9rem"
       }
     },
