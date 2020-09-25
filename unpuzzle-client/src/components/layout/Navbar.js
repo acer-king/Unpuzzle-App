@@ -14,14 +14,26 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useTheme} from '@material-ui/core/styles'
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
 // Logo
 import upLogo from '../../images/upLogo.svg';
 
+const useStyles = makeStyles(theme => ({
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    marginBottom: "2em"
+  }
+}))
+
 const styles = theme => ({
   ...theme.themeStyle,
+  toolbarMargin: {
+    
+  },
   logoContainer: {
     padding: 0,
     "&:hover": {
@@ -29,7 +41,13 @@ const styles = theme => ({
     }
   },
   headerLogo: {
-    height: "6em"
+    height: "6em",
+    [theme.breakpoints.down("md")]: {
+      height: "5em"
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "4.5em"
+    }
   },
   tab: {
     ...theme.themeStyle.typography.tab,
@@ -66,6 +84,8 @@ const styles = theme => ({
 
 const Navbar = (props) => {
     const { classes, authenticated } = props;
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down("md"))
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
@@ -159,75 +179,85 @@ const Navbar = (props) => {
           break;
       }
     }, [value])
-    return (
-      <AppBar className={classes.appBarBG}>
-        <Toolbar disableGutters className="nav-container">
-          <Button 
+    
+    const tabs = (
+      <Fragment>
+        <Tabs value={value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
+          <Tab className={classes.tab} component={Link} to="/" label="Home" />
+          <Tab 
+            aria-owns={anchorEl ? "simple-menu" : undefined }
+            aria-haspopup={anchorEl ? true : undefined}
+            className={classes.tab} 
             component={Link} 
-            to="/" 
-            onClick={() => setValue(0)} 
-            className={classes.logoContainer} 
-            disableRipple
-          >
-            <img alt="Company Logo" src={upLogo} className={classes.headerLogo} />
-          </Button>
-          {authenticated ? (
-            <Fragment>
-              <PostPuzzlepiece/>
-              <Link to="/">
-                <MyButton tip="Home">
-                  <HomeIcon />
-                </MyButton>
-              </Link>
-              <Notifications />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <Tabs value={value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
-                <Tab className={classes.tab} component={Link} to="/" label="Home" />
-                <Tab 
-                  aria-owns={anchorEl ? "simple-menu" : undefined }
-                  aria-haspopup={anchorEl ? true : undefined}
-                  className={classes.tab} 
-                  component={Link} 
-                  onMouseOver={event => handleClick(event)}
-                  to="tutoring" 
-                  label="Tutoring" 
-                />
-                <Tab className={classes.tab} component={Link} to="puzzleworld" label="Puzzle World" />
-                <Tab className={classes.tab} component={Link} to="innovationineducation" label="Innovation in Education" />
-                <Tab className={classes.tab} component={Link} to="login" label="Login" />
-                <Tab className={classes.tab} component={Link} to="signup" label="Signup" />
-              </Tabs>
-              <Button variant="contained" color="secondary" className={classes.button}>
-                Book A Tutoring Session
-              </Button>
-              <Menu 
-                id="simple-menu" 
-                anchorEl={anchorEl} 
-                open={open} 
-                onClose={handleClose} 
-                MenuListProps={{onMouseLeave: handleClose}}
-                classes={{paper: classes.menu}}
-                elevation={0}
-              >
-                {menuOptions.map((option, i) => (
-                  <MenuItem
-                    key={option}
-                    component={Link} 
-                    to={option.link}
-                    classes={{root: classes.menuItem}}
-                    onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
-                    selected={i === selectedIndex && value === 1}
-                  >
-                    {option.name}
-                  </MenuItem>
-                ))}  
-              </Menu>
-            </Fragment>
-          )}
-        </Toolbar>
-      </AppBar>
+            onMouseOver={event => handleClick(event)}
+            to="tutoring" 
+            label="Tutoring" 
+          />
+          <Tab className={classes.tab} component={Link} to="puzzleworld" label="Puzzle World" />
+          <Tab className={classes.tab} component={Link} to="innovationineducation" label="Innovation in Education" />
+          <Tab className={classes.tab} component={Link} to="login" label="Login" />
+          <Tab className={classes.tab} component={Link} to="signup" label="Signup" />
+        </Tabs>
+        <Button variant="contained" color="secondary" className={classes.button}>
+          Book A Tutoring Session
+        </Button>
+        <Menu 
+          id="simple-menu" 
+          anchorEl={anchorEl} 
+          open={open} 
+          onClose={handleClose} 
+          MenuListProps={{onMouseLeave: handleClose}}
+          classes={{paper: classes.menu}}
+          elevation={0}
+        >
+          {menuOptions.map((option, i) => (
+            <MenuItem
+              key={option}
+              component={Link} 
+              to={option.link}
+              classes={{root: classes.menuItem}}
+              onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
+              selected={i === selectedIndex && value === 1}
+            >
+              {option.name}
+            </MenuItem>
+          ))}  
+        </Menu>
+      </Fragment>
+    )
+
+    return (
+      <Fragment>
+        <AppBar className={classes.appBarBG}>
+          <Toolbar disableGutters className="nav-container">
+            <Button 
+              component={Link} 
+              to="/" 
+              onClick={() => setValue(0)} 
+              className={classes.logoContainer} 
+              disableRipple
+            >
+              <img alt="Company Logo" src={upLogo} className={classes.headerLogo} />
+            </Button>
+            {authenticated ? (
+              <Fragment>
+                <PostPuzzlepiece/>
+                <Link to="/">
+                  <MyButton tip="Home">
+                    <HomeIcon />
+                  </MyButton>
+                </Link>
+                <Notifications />
+              </Fragment>
+            ) : (
+              <Fragment>
+                {matches ? null : tabs}
+              </Fragment>
+            )}
+          </Toolbar>
+        </AppBar>
+        <div className={classes.toolbarMargin}></div>
+      </Fragment>
     )
   }
 
