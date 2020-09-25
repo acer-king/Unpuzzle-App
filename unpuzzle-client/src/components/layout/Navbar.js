@@ -22,17 +22,17 @@ import HomeIcon from '@material-ui/icons/Home';
 // Logo
 import upLogo from '../../images/upLogo.svg';
 
-const useStyles = makeStyles(theme => ({
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: "2em"
-  }
-}))
-
 const styles = theme => ({
   ...theme.themeStyle,
   toolbarMargin: {
-    
+      ...theme.mixins.toolbar,
+      marginBottom: "4em",
+      [theme.breakpoints.down("md")]: {
+        marginBottom: "2.25em"
+      },
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "1.25em"
+      }
   },
   logoContainer: {
     padding: 0,
