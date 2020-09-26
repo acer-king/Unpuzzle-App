@@ -24,6 +24,7 @@ import computerprogramming from './pages/computerprogramming';
 import digitalskills from './pages/digitalskills';
 import puzzleworld from './pages/puzzleworld';
 import innovationineducation from './pages/innovationineducation';
+import bookasession from './pages/bookasession';
 
 import axios from 'axios';
 
@@ -60,6 +61,7 @@ function App() {
               <Route exact path="/digitalskills" component={digitalskills} />
               <Route exact path="/puzzleworld" component={puzzleworld} />
               <Route exact path="/innovationineducation" component={innovationineducation} />
+              <Route exact path="/bookasession" component={bookasession} />
               <AuthRoute exact path="/login" component={login} />
               <AuthRoute exact path="/signup" component={signup} />
               <Route exact path="/users/:handle" component={user} />

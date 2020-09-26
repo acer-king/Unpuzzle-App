@@ -32,9 +32,9 @@ const styles = theme => ({
   ...theme.themeStyle,
   toolbarMargin: {
       ...theme.mixins.toolbar,
-      marginBottom: "4em",
+      marginBottom: "3em",
       [theme.breakpoints.down("md")]: {
-        marginBottom: "2.25em"
+        marginBottom: "1em"
       },
       [theme.breakpoints.down("xs")]: {
         marginBottom: "1.25em"
@@ -70,8 +70,9 @@ const styles = theme => ({
     textTransform: "none",
     height: "45px"
   },
-  appBarBG: {
-    background: '#fefefe'
+  appbar: {
+    background: '#fefefe',
+    zIndex: theme.zIndex.modal + 1
   },
   menu: {
     backgroundColor: "#fefefe",
@@ -106,7 +107,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   drawerItemSelected: {
-    opacity: 1
+    "& .MuiListItemText-root": {
+      opacity: 1
+    }
   }
 })
 
@@ -143,102 +146,47 @@ const Navbar = (props) => {
   }
 
   const menuOptions = [
-    {name: "Tutoring", link: "/tutoring"},
-    {name: "Grade 6 to Grade 12", link: "/gradeschool"},
-    {name: "Computer Programming", link: "/computerprogramming"},
-    {name: "Digita Skills", link: "/digitalskills"}
+    {name: "Tutoring", link: "/tutoring", activeIndex: 1, selectedIndex: 0},
+    {name: "Grade 6 to Grade 12", link: "/gradeschool", activeIndex: 1, selectedIndex: 1},
+    {name: "Computer Programming", link: "/computerprogramming", activeIndex: 1, selectedIndex: 2},
+    {name: "Digita Skills", link: "/digitalskills", activeIndex: 1, selectedIndex: 3}
   ]
 
   const routes =
     [
-      {name: "Home", link: "/"}, {name: "Tutoring", link: "/tutoring"}, 
-      {name: "Puzzle World", link: "/puzzleworld"}, 
-      {name: "Innovation in Education", link: "/innovationineducation"}, 
-      {name: "Login", link: "/login"}, {name: "Signup", link: "/signup"}
+      {name: "Home", link: "/", activeIndex: 0},
+      {name: "Tutoring", link: "/tutoring", activeIndex: 1, mouseOver: event => handleClick(event), ariaOwns: anchorEl ? "simple-menu" : undefined, ariaHasPopup: anchorEl ? true : undefined}, 
+      {name: "Puzzle World", link: "/puzzleworld", activeIndex: 2}, 
+      {name: "Innovation in Education", link: "/innovationineducation", activeIndex: 3}, 
+      {name: "Login", link: "/login", activeIndex: 4}, 
+      {name: "Signup", link: "/signup", activeIndex: 5}
     ]
 
   useEffect(() => {
-    
-
-    switch (window.location.pathname) {
-      case "/":
-        if (value !== 0) {
-          setValue(0);
-        }
-        break;
-      case "/tutoring":
-        if (value !== 1) {
-          setValue(1);
-          setSelectedIndex(0)
-        }
-        break;
-      case "/gradeschool":
-        if (value !== 1) {
-          setValue(1);
-          setSelectedIndex(1)
-        }
-        break;
-      case "/computerprogramming":
-        if (value !== 1) {
-          setValue(1);
-          setSelectedIndex(2);
-        }
-        break;
-      case "/digitalskills":
-        if (value !== 1) {
-          setValue(1)
-          setSelectedIndex(3)
-        }
-        break;
-      case "/puzzleworld":
-        if (value !== 2) {
-          setValue(2)
-        }
-        break;
-      case "/innovationineducation":
-        if (value !==3) {
-          setValue (3)
-        }
-        break;
-      case "/login":
-        if (value !==4) {
-          setValue (4)
-        }
-        break;
-      case "/signup":
-        if (value !==5) {
-          setValue (5)
-        }
-        break;
-      case "/session":
-        if (value !==6) {
-          setValue (6)
-        }
-        break;
-      default:
-        break;
-    }
-  }, [value])
+    [...menuOptions, ...routes].forEach(route => {
+      switch (window.location.pathname) {
+        case `${route.link}`:
+          if (value !== route.activeIndex) {
+            setValue(route.activeIndex)
+            if (route.selectedIndex && route.selectedIndex !== selectedIndex) {
+              setSelectedIndex(route.selectedIndex)
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    })
+  }, [value, menuOptions, selectedIndex, routes])
     
   const tabs = (
     <Fragment>
       <Tabs value={value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
-        <Tab className={classes.tab} component={Link} to="/" label="Home" />
-        <Tab 
-          aria-owns={anchorEl ? "simple-menu" : undefined }
-          aria-haspopup={anchorEl ? true : undefined}
-          className={classes.tab} 
-          component={Link} 
-          onMouseOver={event => handleClick(event)}
-          to="tutoring" 
-          label="Tutoring" 
-        />
-        <Tab className={classes.tab} component={Link} to="puzzleworld" label="Puzzle World" />
-        <Tab className={classes.tab} component={Link} to="innovationineducation" label="Innovation in Education" />
-        <Tab className={classes.tab} component={Link} to="login" label="Login" />
-        <Tab className={classes.tab} component={Link} to="signup" label="Signup" />
+        {routes.map((route, i) => (
+          <Tab key={`${route}${i}`} className={classes.tab} component={Link} to={route.link} label={route.name} onMouseOver={route.mouseOver} aria-owns={route.ariaOwns} aria-haspopup={route.ariaHasPopup}/>
+        ))}
       </Tabs>
-      <Button variant="contained" color="secondary" className={classes.button}>
+      <Button variant="contained" color="secondary" className={classes.button} component={Link} to="/bookasession">
         Book A Tutoring Session
       </Button>
       <Menu 
@@ -249,10 +197,12 @@ const Navbar = (props) => {
         MenuListProps={{onMouseLeave: handleClose}}
         classes={{paper: classes.menu}}
         elevation={0}
+        style={{zIndex: 1302}}
+        keepMounted
       >
         {menuOptions.map((option, i) => (
           <MenuItem
-            key={option}
+            key={`${option}${i}`}
             component={Link} 
             to={option.link}
             classes={{root: classes.menuItem}}
@@ -275,72 +225,16 @@ const Navbar = (props) => {
         onOpen={()=>setOpenDrawer(true)}
         classes={{paper: classes.drawer}}
       >
+      <div className={classes.toolbarMargin}></div>
         <List>
-          <ListItem 
-            onClick={() => {setOpenDrawer(false); setValue(0)}} 
-            divider
-            button 
-            component={Link} 
-            to="/" 
-            selected={value === 0}
-          >
-            <ListItemText 
-              className={value === 0 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Home
-            </ListItemText>
-          </ListItem>
-          <ListItem 
-            onClick={() => {setOpenDrawer(false); setValue(1)}} 
-            divider 
-            button 
-            component={Link} 
-            to="/tutoring"
-            selected={value === 1}
-          >
-            <ListItemText 
-              className={value === 1 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Tutoring
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={() => {setOpenDrawer(false); setValue(2)}} divider button component={Link} to="/puzzleworld" selected={value === 2}>
-            <ListItemText 
-              className={value === 2 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Puzzle World
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={() => {setOpenDrawer(false); setValue(3)}} divider button component={Link} to="/innovationineducation" selected={value === 3}>
-            <ListItemText 
-              className={value === 3 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Innovation in Education
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={() => {setOpenDrawer(false); setValue(4)}} divider button component={Link} to="/Login" selected={value === 4}>
-            <ListItemText 
-              className={value === 4 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Login
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={() => {setOpenDrawer(false); setValue(5)}} divider button component={Link} to="/signup" selected={value === 5}>
-            <ListItemText 
-              className={value === 5 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
-              disableTypography
-            >
-              Sign Up
-            </ListItemText>
-          </ListItem>
-          <ListItem className={classes.drawerItemSession} onClick={() => {setOpenDrawer(false); setValue(6)}} divider button component={Link} to="/session" selected={value === 6}>
+          {routes.map(route => (
+            <ListItem classes={{selected: classes.drawerItemSelected}} key={`${route}${route.activeIndex}`} divider button component={Link} to={route.link} selected={value === route.activeIndex} onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}>
+              <ListItemText className={classes.drawerItem} disableTypography>{route.name}</ListItemText>
+            </ListItem>
+          ))}
+          <ListItem classes={{root: classes.drawerItemSession, selected: classes.drawerItemSelected }} onClick={() => {setOpenDrawer(false); setValue(6)}} divider button component={Link} to="/bookasession" selected={value === 6}>
           <ListItemText 
-              className={value === 6 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+              className={classes.drawerItem} 
               disableTypography
             >
               Book a Tutoring Session
@@ -356,7 +250,7 @@ const Navbar = (props) => {
 
   return (
     <Fragment>
-      <AppBar className={classes.appBarBG}>
+      <AppBar position="fixed" className={classes.appbar}>
         <Toolbar disableGutters className="nav-container">
           <Button 
             component={Link} 
