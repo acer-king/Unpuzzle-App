@@ -15,10 +15,16 @@ import Tab from '@material-ui/core/Tab';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {useTheme} from '@material-ui/core/styles'
+import {useTheme} from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // Icons
 import HomeIcon from '@material-ui/icons/Home';
+import MenuIcon from '@material-ui/icons/Menu';
 // Logo
 import upLogo from '../../images/upLogo.svg';
 
@@ -77,38 +83,63 @@ const styles = theme => ({
     "&:hover": {
       opacity: 1
     }
-
+  },
+  drawerIcon: {
+    height: "50px",
+    width: "50px"
+  },
+  drawerIconContainer: {
+    marginLeft: "auto",
+    "&:hover": {
+      backgroundColor: "transparent"
+    }
+  },
+  drawer: {
+    backgroundColor: theme.palette.primary.main
+  },
+  drawerItem: {
+    ...theme.themeStyle.typography.tab,
+    color: "white",
+    opacity: 0.7
+  },
+  drawerItemSession: {
+    backgroundColor: theme.palette.secondary.main
+  },
+  drawerItemSelected: {
+    opacity: 1
   }
-
 })
 
 const Navbar = (props) => {
     const { classes, authenticated } = props;
     const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down("md"))
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const matches = useMediaQuery(theme.breakpoints.down("md"));
+
+    const [openDrawer, setOpenDrawer] = useState(false)
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const handleChange = (e, value) => {
-      setValue(value)
+    const handleChange = (e, newValue) => {
+      setValue(newValue)
     };
 
     const handleClick = (e) => {
       setAnchorEl(e.currentTarget)
-      setOpen(true)
+      setOpenMenu(true)
     }
 
     const handleMenuItemClick = (e, i) => {
       setAnchorEl(null);
-      setOpen(false);
+      setOpenMenu(false);
       setSelectedIndex(i)
     }
 
     const handleClose = (e) => {
       setAnchorEl(null)
-      setOpen(false)
+      setOpenMenu(false)
     }
 
     const menuOptions = [
@@ -130,21 +161,7 @@ const Navbar = (props) => {
       }
     ]
 
-    useEffect(() => {
-      if (window.location.pathname === "/" && value !== 0) {
-        setValue(0)
-      } else if (window.location.pathname === "/tutoring" && value !== 1) {
-        setValue(1)
-      } else if (window.location.pathname === "/puzzleworld" && value !== 2) {
-        setValue(2)
-      } else if (window.location.pathname === "/innovationineducation" && value !== 3) {
-        setValue(3)
-      } else if (window.location.pathname === "/login" && value !== 4) {
-        setValue(4)
-      } else if (window.location.pathname === "/signup" && value !== 5) {
-        setValue(5)
-      }
-      
+    useEffect(() => {      
       switch (window.location.pathname) {
         case "/":
           if (value !== 0) {
@@ -204,7 +221,7 @@ const Navbar = (props) => {
         <Menu 
           id="simple-menu" 
           anchorEl={anchorEl} 
-          open={open} 
+          open={openMenu} 
           onClose={handleClose} 
           MenuListProps={{onMouseLeave: handleClose}}
           classes={{paper: classes.menu}}
@@ -217,12 +234,100 @@ const Navbar = (props) => {
               to={option.link}
               classes={{root: classes.menuItem}}
               onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
-              selected={i === selectedIndex && value === 1}
+              selectedIndex={i === selectedIndex && value === 1}
             >
               {option.name}
             </MenuItem>
           ))}  
         </Menu>
+      </Fragment>
+    )
+
+    const drawer = (
+      <Fragment>
+        <SwipeableDrawer 
+          disableBackdropTransition={!iOS} 
+          disableDiscovery={iOS} open={openDrawer} 
+          onClose={() => setOpenDrawer(false)} 
+          onOpen={()=>setOpenDrawer(true)}
+          classes={{paper: classes.drawer}}
+        >
+          <List>
+            <ListItem 
+              onClick={() => {setOpenDrawer(false); setValue(0)}} 
+              divider
+              button 
+              component={Link} 
+              to="/" 
+              selected={value === 0}
+            >
+              <ListItemText 
+                className={value === 0 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Home
+              </ListItemText>
+            </ListItem>
+            <ListItem 
+              onClick={() => {setOpenDrawer(false); setValue(1)}} 
+              divider 
+              button 
+              component={Link} 
+              to="/tutoring"
+              selected={value === 1}
+            >
+              <ListItemText 
+                className={value === 1 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Tutoring
+              </ListItemText>
+            </ListItem>
+            <ListItem onClick={() => {setOpenDrawer(false); setValue(2)}} divider button component={Link} to="/puzzleworld" selected={value === 2}>
+              <ListItemText 
+                className={value === 2 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Puzzle World
+              </ListItemText>
+            </ListItem>
+            <ListItem onClick={() => {setOpenDrawer(false); setValue(3)}} divider button component={Link} to="/innovationineducation" selected={value === 3}>
+              <ListItemText 
+                className={value === 3 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Innovation in Education
+              </ListItemText>
+            </ListItem>
+            <ListItem onClick={() => {setOpenDrawer(false); setValue(4)}} divider button component={Link} to="/Login" selected={value === 4}>
+              <ListItemText 
+                className={value === 4 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Login
+              </ListItemText>
+            </ListItem>
+            <ListItem onClick={() => {setOpenDrawer(false); setValue(5)}} divider button component={Link} to="/signup" selected={value === 5}>
+              <ListItemText 
+                className={value === 5 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Sign Up
+              </ListItemText>
+            </ListItem>
+            <ListItem className={classes.drawerItemSession} onClick={() => {setOpenDrawer(false); setValue(6)}} divider button component={Link} to="/session" selected={value === 6}>
+            <ListItemText 
+                className={value === 6 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem} 
+                disableTypography
+              >
+                Book a Tutoring Session
+              </ListItemText>
+            </ListItem>
+          </List>
+        </SwipeableDrawer>
+        <IconButton className={classes.drawerIconContainer} onClick={() => setOpenDrawer(!openDrawer)} disableRipple>
+          <MenuIcon className={classes.drawerIcon}/>
+        </IconButton>
       </Fragment>
     )
 
@@ -251,7 +356,7 @@ const Navbar = (props) => {
               </Fragment>
             ) : (
               <Fragment>
-                {matches ? null : tabs}
+                {matches ? drawer : tabs}
               </Fragment>
             )}
           </Toolbar>
