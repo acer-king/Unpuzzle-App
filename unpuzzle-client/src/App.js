@@ -54,7 +54,7 @@ function App() {
         <Router>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={home} />
+            <Route exact path="/" component={() => <div style={{height: "2000px"}}>Home</div>} />
             <Route exact path="/tutoring" component={tutoring} />
             <Route exact path="/gradeschool" component={gradeschool} />
             <Route exact path="/computerprogramming" component={computerprogramming} />

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Puzzlepiece from '../components/puzzlepiece/Puzzlepiece';
@@ -11,10 +12,15 @@ import { getPuzzlepieces } from '../redux/actions/dataActions';
 
 const config = require('../aws/api/config.json');
 
+const useStyles = makeStyles(theme => ({
+  pushDown: {
+    height: "2000px"
+  }
+}))
+
 class home extends Component {
 
   state = {
-    newPuzzle: null,
     puzzles: []
   }
 
@@ -43,7 +49,7 @@ class home extends Component {
     );
     return (
       <Fragment>
-        <Grid container>
+        <Grid container style={{height: "2000px"}}>
           { /* Curly braces { } are special syntax in JSX. 
             It is used to evaluate a JavaScript expression during compilation. 
             A JavaScript expression can be a variable, function, 
