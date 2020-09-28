@@ -25,6 +25,7 @@ import digitalskills from './pages/digitalskills';
 import puzzleworld from './pages/puzzleworld';
 import innovationineducation from './pages/innovationineducation';
 import bookasession from './pages/bookasession';
+import Footer from './components/layout/Footer';
 
 import axios from 'axios';
 
@@ -52,22 +53,21 @@ function App() {
       <Provider store={store}>
         <Router>
           <Navbar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={home} />
-              <Route exact path="/tutoring" component={tutoring} />
-              <Route exact path="/gradeschool" component={gradeschool} />
-              <Route exact path="/computerprogramming" component={computerprogramming} />
-              <Route exact path="/digitalskills" component={digitalskills} />
-              <Route exact path="/puzzleworld" component={puzzleworld} />
-              <Route exact path="/innovationineducation" component={innovationineducation} />
-              <Route exact path="/bookasession" component={bookasession} />
-              <AuthRoute exact path="/login" component={login} />
-              <AuthRoute exact path="/signup" component={signup} />
-              <Route exact path="/users/:handle" component={user} />
-              <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={home} />
+            <Route exact path="/tutoring" component={tutoring} />
+            <Route exact path="/gradeschool" component={gradeschool} />
+            <Route exact path="/computerprogramming" component={computerprogramming} />
+            <Route exact path="/digitalskills" component={digitalskills} />
+            <Route exact path="/puzzleworld" component={puzzleworld} />
+            <Route exact path="/innovationineducation" component={innovationineducation} />
+            <Route exact path="/bookasession" component={bookasession} />
+            <AuthRoute exact path="/login" component={login} />
+            <AuthRoute exact path="/signup" component={signup} />
+            <Route exact path="/users/:handle" component={user} />
+            <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
+          </Switch>
+          <Footer />
         </Router>
       </Provider>
     </MuiThemeProvider>

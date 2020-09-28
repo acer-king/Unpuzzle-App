@@ -45,4 +45,4 @@ class Puzzle extends Component {
   }
 }
 
-export default Puzzle
+export default Puzzle;

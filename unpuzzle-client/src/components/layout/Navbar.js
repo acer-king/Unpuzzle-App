@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,7 +32,7 @@ const styles = theme => ({
   ...theme.themeStyle,
   toolbarMargin: {
       ...theme.mixins.toolbar,
-      marginBottom: "3em",
+      marginBottom: "1.1em",
       [theme.breakpoints.down("md")]: {
         marginBottom: "1em"
       },
