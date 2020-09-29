@@ -120,13 +120,11 @@ const Navbar = (props) => {
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   const [openDrawer, setOpenDrawer] = useState(false)
-  const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleChange = (e, newValue) => {
-    setValue(newValue)
+    props.setValue(newValue)
   };
 
   const handleClick = (e) => {
@@ -137,7 +135,7 @@ const Navbar = (props) => {
   const handleMenuItemClick = (e, i) => {
     setAnchorEl(null);
     setOpenMenu(false);
-    setSelectedIndex(i)
+    props.setSelectedIndex(i)
   }
 
   const handleClose = (e) => {
@@ -166,10 +164,10 @@ const Navbar = (props) => {
     [...menuOptions, ...routes].forEach(route => {
       switch (window.location.pathname) {
         case `${route.link}`:
-          if (value !== route.activeIndex) {
-            setValue(route.activeIndex)
-            if (route.selectedIndex && route.selectedIndex !== selectedIndex) {
-              setSelectedIndex(route.selectedIndex)
+          if (props.value !== route.activeIndex) {
+            props.setValue(route.activeIndex)
+            if (route.selectedIndex && route.selectedIndex !== props.selectedIndex) {
+              props.setSelectedIndex(route.selectedIndex)
             }
           }
           break;
@@ -177,11 +175,11 @@ const Navbar = (props) => {
           break;
       }
     })
-  }, [value, menuOptions, selectedIndex, routes])
+  }, [props.value, menuOptions, props.selectedIndex, routes, props])
     
   const tabs = (
     <Fragment>
-      <Tabs value={value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
+      <Tabs value={props.value} onChange={handleChange} className="tabContainer" indicatorColor="primary">
         {routes.map((route, i) => (
           <Tab key={`${route}${i}`} className={classes.tab} component={Link} to={route.link} label={route.name} onMouseOver={route.mouseOver} aria-owns={route.ariaOwns} aria-haspopup={route.ariaHasPopup}/>
         ))}
@@ -206,8 +204,8 @@ const Navbar = (props) => {
             component={Link} 
             to={option.link}
             classes={{root: classes.menuItem}}
-            onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
-            selected={i === selectedIndex && value === 1}
+            onClick={(event) => {handleMenuItemClick(event, i); props.setValue(1); handleClose()}}
+            selected={i === props.selectedIndex && props.value === 1}
           >
             {option.name}
           </MenuItem>
@@ -228,11 +226,11 @@ const Navbar = (props) => {
       <div className={classes.toolbarMargin}></div>
         <List>
           {routes.map(route => (
-            <ListItem classes={{selected: classes.drawerItemSelected}} key={`${route}${route.activeIndex}`} divider button component={Link} to={route.link} selected={value === route.activeIndex} onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}>
+            <ListItem classes={{selected: classes.drawerItemSelected}} key={`${route}${route.activeIndex}`} divider button component={Link} to={route.link} selected={props.value === route.activeIndex} onClick={() => {setOpenDrawer(false); props.setValue(route.activeIndex)}}>
               <ListItemText className={classes.drawerItem} disableTypography>{route.name}</ListItemText>
             </ListItem>
           ))}
-          <ListItem classes={{root: classes.drawerItemSession, selected: classes.drawerItemSelected }} onClick={() => {setOpenDrawer(false); setValue(6)}} divider button component={Link} to="/bookasession" selected={value === 6}>
+          <ListItem classes={{root: classes.drawerItemSession, selected: classes.drawerItemSelected }} onClick={() => {setOpenDrawer(false); props.setValue(6)}} divider button component={Link} to="/bookasession" selected={props.value === 6}>
           <ListItemText 
               className={classes.drawerItem} 
               disableTypography
@@ -255,7 +253,7 @@ const Navbar = (props) => {
           <Button 
             component={Link} 
             to="/" 
-            onClick={() => setValue(0)} 
+            onClick={() => props.setValue(0)} 
             className={classes.logoContainer} 
             disableRipple
           >

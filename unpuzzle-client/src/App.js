@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles/';
@@ -14,7 +14,7 @@ import { logoutUser, getUserData } from './redux/actions/userActions';
 import Navbar from './components/layout/Navbar';
 import AuthRoute from './util/AuthRoute';
 // Pages
-import home from './pages/home';
+// import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 import user from './pages/user';
@@ -48,11 +48,15 @@ if (token) {
 }
 
 function App() {
+  const [value, setValue] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
+
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <Router>
-          <Navbar />
+          <Navbar value={value} setValue={setValue} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
           <Switch>
             <Route exact path="/" component={() => <div style={{height: "2000px"}}>Home</div>} />
             <Route exact path="/tutoring" component={tutoring} />
@@ -67,7 +71,7 @@ function App() {
             <Route exact path="/users/:handle" component={user} />
             <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
           </Switch>
-          <Footer />
+          <Footer value={value} setValue={setValue} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
         </Router>
       </Provider>
     </MuiThemeProvider>
