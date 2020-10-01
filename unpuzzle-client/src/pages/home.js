@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import Puzzlepiece from '../components/puzzlepiece/Puzzlepiece';
 import Profile from '../components/profile/Profile';
@@ -48,27 +50,26 @@ class home extends Component {
       <PuzzlepieceSkeleton/>
     );
     return (
-      <Fragment>
-        <Grid container style={{height: "2000px"}}>
-          { /* Curly braces { } are special syntax in JSX. 
-            It is used to evaluate a JavaScript expression during compilation. 
-            A JavaScript expression can be a variable, function, 
-            an object, or any code that resolves into a value. */ }
-          {
-            this.state.puzzles && this.state.puzzles.length > 0
-            ? this.state.puzzles.map(puzzle => <Puzzle puzzleName={puzzle.puzzleName} id={puzzle.id} key={puzzle.id} />)
-            : <div>No puzzle available</div>
-          }
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item sm={8} xs={12}>
-            {recentPuzzlepiecesMarkup}
+      <Grid container direction="column">
+        <Grid item>
+          <Grid container direction="row">
+            <Grid item>
+              <div>
+                Unpuzzle
+                <br />
+                The most innovative online tutoring platform in the world.
+              </div>
+            </Grid>
+            <Grid container>
+              <Grid item>
+                <Button variant="outlined">
+                  Schedule a Session
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={4} xs={12}>
-            <Profile />
-          </Grid>
         </Grid>
-      </Fragment>
+      </Grid>
     )
   }
 }
