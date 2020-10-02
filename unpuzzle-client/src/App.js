@@ -17,6 +17,7 @@ import AuthRoute from './util/AuthRoute';
 // import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
+import Home from './pages/Home';
 import user from './pages/user';
 import tutoring from './pages/tutoring';
 import gradeschool from './pages/gradeschool';
@@ -58,7 +59,7 @@ function App() {
         <Router>
           <Navbar value={value} setValue={setValue} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
           <Switch>
-            <Route exact path="/" component={() => <div style={{height: "2000px"}}>Home</div>} />
+            <Route exact path="/" component={Home} />
             <Route exact path="/tutoring" component={tutoring} />
             <Route exact path="/gradeschool" component={gradeschool} />
             <Route exact path="/computerprogramming" component={computerprogramming} />
