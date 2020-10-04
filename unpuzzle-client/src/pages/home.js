@@ -6,8 +6,14 @@ import Button from "@material-ui/core/Button";
 import HeaderAnimation from "../images/svg-assets/unpuzzle-header";
 import ButtonArrow from "../components/layout/ButtonArrow";
 
-const useStyles = makeStyles((theme) => ({}));
-
+const useStyles = makeStyles((theme) => ({
+  lottie: {
+    maxWidth: "600px",
+  },
+}));
+const lottieStyle = {
+  maxWidth: "600px",
+};
 export default function Home() {
   const classes = useStyles();
 
@@ -40,8 +46,13 @@ export default function Home() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item className={classes.lottie}>
-            <Lottie options={defaultOptions} height={"100%"} width={"100%"} />
+          <Grid item>
+            <Lottie
+              style={lottieStyle}
+              options={defaultOptions}
+              height={"100%"}
+              width={"100%"}
+            />
           </Grid>
         </Grid>
       </Grid>
