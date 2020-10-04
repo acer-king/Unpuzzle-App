@@ -69,6 +69,9 @@ const styles = (theme) => ({
     fontSize: "1rem",
     textTransform: "none",
     height: "45px",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
   },
   appbar: {
     background: "#fefefe",
