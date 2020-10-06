@@ -1,15 +1,15 @@
 html,
-body{
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Montserrat", "Roboto", "Oxygen", 
-  "Ubuntu", "Cantarell", "Fire Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  background-color: rgb(245, 245, 245);
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Montserrat",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fire Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  background-color: white;
 }
-.container{
+.container {
   margin: auto;
-
 }
 .nav-container {
-  color: #fff
+  color: #fff;
 }
 
 .tabContainer {
@@ -19,6 +19,6 @@ body{
   font-family: "Montserrat";
 }
 
-a{
+a {
   text-decoration: none;
 }

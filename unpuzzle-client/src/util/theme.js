@@ -2,6 +2,8 @@ import { createMuiTheme } from "@material-ui/core/styles";
 const ppBlue = "#1ba1f6";
 const ppOrange = "#f7931e";
 
+const theme = createMuiTheme();
+
 export default createMuiTheme({
   palette: {
     primary: {
@@ -24,6 +26,25 @@ export default createMuiTheme({
       fontSize: "2.5rem",
       color: `${ppBlue}`,
       lineHeight: 1.5,
+      [theme.breakpoints.down("md")]: {
+        fontSize: "2rem",
+      },
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "2rem",
+      },
+    },
+    h3: {
+      fontFamily: "Montserrat",
+      fontWeight: 500,
+      fontSize: "1.8rem",
+      color: "#48b3f7",
+      lineHeight: 1.5,
+      [theme.breakpoints.down("md")]: {
+        fontSize: "1.5rem",
+      },
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "1.2rem",
+      },
     },
   },
   themeStyle: {

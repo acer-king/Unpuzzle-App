@@ -13,6 +13,18 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "21em",
     marginTop: "2em",
     marginLeft: "5%",
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "auto",
+    },
+  },
+  mainContainer: {
+    [theme.breakpoints.down("md")]: {
+      marginTop: "1.5em",
+      marginBottom: "1em",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "3em",
+    },
   },
   bookSessionButton: {
     ...theme.themeStyle.button,
@@ -40,6 +52,13 @@ const useStyles = makeStyles((theme) => ({
     height: 60,
     width: 150,
   },
+  heroTextContainer: {
+    minWidth: "40em",
+    marginLeft: "1em",
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: 0,
+    },
+  },
 }));
 
 export default function Home() {
@@ -56,13 +75,14 @@ export default function Home() {
   };
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" className={classes.mainContainer}>
       <Grid item>
         <Grid container justify="flex-end" alignItems="center" direction="row">
-          <Grid sm item>
+          <Grid sm item className={classes.heroTextContainer}>
             <Typography variant="h2" align="center">
               Unpuzzle
-              <br />
+            </Typography>
+            <Typography variant="h3" align="center">
               Collect and Connect Puzzle Pieces
             </Typography>
             <Grid
