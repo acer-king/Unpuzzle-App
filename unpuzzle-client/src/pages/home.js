@@ -77,6 +77,8 @@ export default function Home() {
   return (
     <Grid container direction="column" className={classes.mainContainer}>
       <Grid item>
+        {" "}
+        {/* ---------Hero Block--------- */}
         <Grid container justify="flex-end" alignItems="center" direction="row">
           <Grid sm item className={classes.heroTextContainer}>
             <Typography variant="h2" align="center">
@@ -112,6 +114,14 @@ export default function Home() {
           </Grid>
           <Grid sm item className={classes.animation}>
             <Lottie options={defaultOptions} height={"100%"} width={"100%"} />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        {/* Tutoring */}
+        <Grid container direction="row">
+          <Grid item>
+            <Typography variant="h4">Tutoring on steroids.</Typography>
           </Grid>
         </Grid>
       </Grid>
