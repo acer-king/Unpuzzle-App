@@ -121,7 +121,9 @@ export default function Home() {
         {/* Tutoring */}
         <Grid container direction="row">
           <Grid item>
-            <Typography variant="h4">Tutoring on steroids.</Typography>
+            <Typography variant="h4">
+              Online tutoring on a whole new level.
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
