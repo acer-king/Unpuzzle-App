@@ -121,8 +121,12 @@ export default function Home() {
         {/* Tutoring */}
         <Grid container direction="row">
           <Grid item>
-            <Typography variant="h4">
-              Online tutoring on a whole new level.
+            <Typography variant="h4">Grade 6 - Grade 12</Typography>
+            <Typography variant="subtitle1">
+              Get your child way ahead in this testing time
+            </Typography>
+            <Typography variant="subtitle1">
+              Get your child way ahead in this testing time
             </Typography>
           </Grid>
         </Grid>
