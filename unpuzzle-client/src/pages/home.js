@@ -118,16 +118,10 @@ export default function Home() {
         </Grid>
       </Grid>
       <Grid item>
-        {/* ---------Tutoring--------- */}
+        {/* Tutoring */}
         <Grid container direction="row">
           <Grid item>
-            <Typography variant="h4">Grade 6 - Grade 12</Typography>
-            <Typography variant="subtitle1">
-              Improve your child’s grade the Unpuzzle way
-            </Typography>
-            <Typography variant="subtitle1">
-              Unpuzzle addresses all the reasons why online classes don’t work.
-            </Typography>
+            <Typography variant="h4">Tutoring on steroids.</Typography>
           </Grid>
         </Grid>
       </Grid>

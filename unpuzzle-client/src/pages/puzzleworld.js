@@ -49,11 +49,13 @@ const  fetchPuzzles = async () => {
             It is used to evaluate a JavaScript expression during compilation. 
             A JavaScript expression can be a variable, function, 
             an object, or any code that resolves into a value. */ }
-          {
-            puzzles && puzzles.length > 0
-            ? puzzles.map(puzzle => <Puzzle puzzleName={puzzle.puzzleName} id={puzzle.id} key={puzzle.id} />)
-            : <div>No puzzle available</div>
-          }
+          {/* AWS Integration
+            {
+              puzzles && puzzles.length > 0
+              ? puzzles.map(puzzle => <Puzzle puzzleName={puzzle.puzzleName} id={puzzle.id} key={puzzle.id} />)
+              : <div>No puzzle available</div>
+            }   
+          */}
         </Grid>
         <Grid container spacing={2}>
           <Grid item sm={8} xs={12}>
