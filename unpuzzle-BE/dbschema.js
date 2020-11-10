@@ -61,8 +61,8 @@ const userDetails = {
   },
   likes: [
     {
-    userHandle: 'user',
-    screamId: 'wowosdfjosdifjo'
+      userHandle: 'user',
+      screamId: 'wowosdfjosdifjo'
     },
     {
       userHandle: 'user',

@@ -15,25 +15,24 @@ import Navbar from './components/layout/Navbar';
 import AuthRoute from './util/AuthRoute';
 // Pages
 // import home from './pages/home';
-import login from './pages/Login';
-import signup from './pages/Signup';
-import Home from './pages/Home';
-import user from './pages/User';
-import tutoring from './pages/Tutoring';
-import gradeschool from './pages/GradeSchool';
-import computerprogramming from './pages/ComputerProgramming';
-import digitalskills from './pages/DigitalSkills';
-import PuzzleWorld from './pages/PuzzleWorld';
+import login from './pages/login';
+import signup from './pages/signup';
+import Home from './pages/home';
+import user from './pages/user';
+import tutoring from './pages/tutoring';
+import gradeschool from './pages/gradeschool';
+import computerprogramming from './pages/computerprogramming';
+import digitalskills from './pages/digitalskills';
+import PuzzleWorld from './pages/puzzleworld';
 import PuzzleTweet from './pages/PuzzleTweet';
-import innovationineducation from './pages/InnovationInEducation';
-import bookasession from './pages/BookASession';
+import innovationineducation from './pages/innovationineducation';
+import bookasession from './pages/bookasession';
 import Footer from './components/layout/Footer';
-
 import axios from 'axios';
 
 const theme = createMuiTheme(themeFile);
 
-axios.defaults.baseURL = 
+axios.defaults.baseURL =
   'https://us-east1-unpuzzle-ad500.cloudfunctions.net/api';
 
 const token = localStorage.FirebaseIdToken;
@@ -52,7 +51,7 @@ if (token) {
 function App() {
   const [value, setValue] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  
+
 
   return (
     <MuiThemeProvider theme={theme}>

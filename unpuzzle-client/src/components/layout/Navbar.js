@@ -426,8 +426,8 @@ const Navbar = (props) => {
               <Notifications />
             </Fragment>
           ) : (
-            <Fragment>{matches ? guestUserDrawer : guestUserTabs}</Fragment>
-          )}
+              <Fragment>{matches ? guestUserDrawer : guestUserTabs}</Fragment>
+            )}
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin}></div>

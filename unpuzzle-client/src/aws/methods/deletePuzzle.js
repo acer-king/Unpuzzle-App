@@ -15,12 +15,12 @@ exports.handler = async (event, context) => {
       id: id
     }
   };
-  
+
   try {
     const data = await documentClient.delete(params).promise();
     responseBody = JSON.stringify(data);
     statusCode = 204;
-  } catch(err) {
+  } catch (err) {
     responseBody = `Unable to delete puzzle: ${err}`;
     statusCode = 403;
   }
