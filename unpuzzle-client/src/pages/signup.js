@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 import { signupUser } from '../redux/actions/userActions';
 
+
 const styles = (theme) => ({
   ...theme.themeStyle,
 });
@@ -28,8 +29,8 @@ class Signup extends Component {
       errors: {},
     };
   }
-  componentWillReceiveProps(nextProps){
-    if(nextProps.UI.errors) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }

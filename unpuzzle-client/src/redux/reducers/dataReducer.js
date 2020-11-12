@@ -6,9 +6,9 @@ const initialState = {
   loading: false
 }
 
-export default function(state = initialState, action){
+export default function (state = initialState, action) {
   let index;
-  switch(action.type){
+  switch (action.type) {
     case LOADING_DATA:
       return {
         ...state,
@@ -29,7 +29,7 @@ export default function(state = initialState, action){
     case UNLIKE_PUZZLEPIECE:
       index = state.puzzlepieces.findIndex((puzzlepiece) => puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId);
       state.puzzlepieces[index] = action.payload;
-      if(state.puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId){
+      if (state.puzzlepiece.puzzlepieceId === action.payload.puzzlepieceId) {
         state.puzzlepiece = action.payload;
       }
       return {
@@ -38,8 +38,6 @@ export default function(state = initialState, action){
     case DELETE_PUZZLEPIECE:
       index = state.puzzlepieces.findIndex(puzzlepiece => puzzlepiece.puzzlepieceId === action.payload);
       state.puzzlepieces.splice(index, 1);
-      console.log(action.payload)
-      console.log(index)
       return {
         ...state
       }

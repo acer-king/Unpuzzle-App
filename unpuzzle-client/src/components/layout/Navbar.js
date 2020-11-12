@@ -28,93 +28,95 @@ import MenuIcon from "@material-ui/icons/Menu";
 // Logo
 import upLogo from "../../images/upLogo.svg";
 
-const styles = (theme) => ({
-  ...theme.themeStyle,
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: "1.1em",
-    [theme.breakpoints.down("md")]: {
-      marginBottom: "1em",
+const styles = (theme) => {
+  return {
+    ...theme.themeStyle,
+    toolbarMargin: {
+      ...theme.mixins.toolbar,
+      marginBottom: "1.1em",
+      [theme.breakpoints.down("md")]: {
+        marginBottom: "1em",
+      },
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "1.25em",
+      },
     },
-    [theme.breakpoints.down("xs")]: {
-      marginBottom: "1.25em",
+    logoContainer: {
+      padding: 0,
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
     },
-  },
-  logoContainer: {
-    padding: 0,
-    "&:hover": {
-      backgroundColor: "transparent",
+    headerLogo: {
+      height: "6em",
+      [theme.breakpoints.down("md")]: {
+        height: "5em",
+      },
+      [theme.breakpoints.down("xs")]: {
+        height: "4.5em",
+      },
     },
-  },
-  headerLogo: {
-    height: "6em",
-    [theme.breakpoints.down("md")]: {
-      height: "5em",
+    tab: {
+      ...theme.themeStyle.typography.tab,
+      minWidth: 10,
+      marginLeft: "25px",
+      color: "black",
+      opacity: 0.7,
     },
-    [theme.breakpoints.down("xs")]: {
-      height: "4.5em",
+    button: {
+      borderRadius: "50px",
+      marginLeft: "50px",
+      marginRight: "25px",
+      fontSize: "1rem",
+      textTransform: "none",
+      height: "45px",
+      "&:hover": {
+        backgroundColor: theme.palette.secondary.light,
+      },
     },
-  },
-  tab: {
-    ...theme.themeStyle.typography.tab,
-    minWidth: 10,
-    marginLeft: "25px",
-    color: "black",
-    opacity: 0.7,
-  },
-  button: {
-    borderRadius: "50px",
-    marginLeft: "50px",
-    marginRight: "25px",
-    fontSize: "1rem",
-    textTransform: "none",
-    height: "45px",
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
+    appbar: {
+      background: "#fefefe",
+      zIndex: theme.zIndex.modal + 1,
     },
-  },
-  appbar: {
-    background: "#fefefe",
-    zIndex: theme.zIndex.modal + 1,
-  },
-  menu: {
-    backgroundColor: "#fefefe",
-    borderRadius: "0",
-  },
-  menuItem: {
-    ...theme.themeStyle.typography.tab,
-    opacity: 0.7,
-    "&:hover": {
-      opacity: 1,
+    menu: {
+      backgroundColor: "#fefefe",
+      borderRadius: "0",
     },
-  },
-  drawerIcon: {
-    height: "50px",
-    width: "50px",
-  },
-  drawerIconContainer: {
-    marginLeft: "auto",
-    "&:hover": {
-      backgroundColor: "transparent",
+    menuItem: {
+      ...theme.themeStyle.typography.tab,
+      opacity: 0.7,
+      "&:hover": {
+        opacity: 1,
+      },
     },
-  },
-  drawer: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  drawerItem: {
-    ...theme.themeStyle.typography.tab,
-    color: "white",
-    opacity: 0.7,
-  },
-  drawerItemSession: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-  drawerItemSelected: {
-    "& .MuiListItemText-root": {
-      opacity: 1,
+    drawerIcon: {
+      height: "50px",
+      width: "50px",
     },
-  },
-});
+    drawerIconContainer: {
+      marginLeft: "auto",
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+    },
+    drawer: {
+      backgroundColor: theme.palette.primary.main,
+    },
+    drawerItem: {
+      ...theme.themeStyle.typography.tab,
+      color: "white",
+      opacity: 0.7,
+    },
+    drawerItemSession: {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    drawerItemSelected: {
+      "& .MuiListItemText-root": {
+        opacity: 1,
+      },
+    },
+  }
+};
 
 const Navbar = (props) => {
   const { classes, authenticated } = props;

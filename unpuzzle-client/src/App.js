@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { MuiThemeProvider } from '@material-ui/core/styles/';
@@ -6,7 +6,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import themeFile from './util/theme';
 import jwtDecode from 'jwt-decode';
 // Redux
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
@@ -29,6 +29,7 @@ import innovationineducation from './pages/innovationineducation';
 import bookasession from './pages/bookasession';
 import Footer from './components/layout/Footer';
 import axios from 'axios';
+import ConfirmEmailContainer from './pages/confirmation';
 
 const theme = createMuiTheme(themeFile);
 
@@ -52,7 +53,6 @@ function App() {
   const [value, setValue] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
@@ -69,6 +69,7 @@ function App() {
             <Route exact path="/innovationineducation" component={innovationineducation} />
             <Route exact path="/bookasession" component={bookasession} />
             <AuthRoute exact path="/login" component={login} />
+            <AuthRoute exact path="/confirm/:username" component={ConfirmEmailContainer} />
             <AuthRoute exact path="/signup" component={signup} />
             <Route exact path="/users/:handle" component={user} />
             <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />

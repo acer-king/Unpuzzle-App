@@ -1,0 +1,26 @@
+[
+    {
+        "groupName": "NormalUser",
+        "precedence": 1
+    },
+    {
+        "groupName": "PremiumUser",
+        "precedence": 2
+    },
+    {
+        "groupName": "Tutor",
+        "precedence": 3
+    },
+    {
+        "groupName": "Student",
+        "precedence": 4
+    },
+    {
+        "groupName": "Parent",
+        "precedence": 5
+    },
+    {
+        "groupName": "Admin",
+        "precedence": 6
+    }
+]
