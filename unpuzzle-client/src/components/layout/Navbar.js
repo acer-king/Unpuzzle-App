@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MyButton from "../../util/MyButton";
@@ -190,7 +190,7 @@ const Navbar = (props) => {
     { name: "Login", link: "/login", activeIndex: 5 },
     { name: "Signup", link: "/signup", activeIndex: 6 },
   ];
-
+  const location = useLocation();
   useEffect(() => {
     [...menuOptions, ...guestRoutes].forEach((route) => {
       switch (window.location.pathname) {
@@ -209,7 +209,25 @@ const Navbar = (props) => {
           break;
       }
     });
-  }, [props.value, menuOptions, props.selectedIndex, guestRoutes, props]);
+    if (location.pathname == '/') {
+      props.setSelectedIndex(0);
+    }
+    else if (location.pathname == '/tutoring') {
+      props.setSelectedIndex(1);
+    }
+    else if (location.pathname == '/puzzleworld') {
+      props.setSelectedIndex(2);
+    }
+    else if (location.pathname == '/puzzletweet') {
+      props.setSelectedIndex(3);
+    }
+    else if (location.pathname == '/innovationineducation') {
+      props.setSelectedIndex(4);
+    }
+    else {
+      props.setSelectedIndex(null);
+    }
+  }, [props.value, menuOptions, props.selectedIndex, guestRoutes, props, location]);
 
   const guestUserTabs = (
     <Fragment>

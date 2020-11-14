@@ -8,28 +8,21 @@ Auth.configure(awsconfig)
 
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  // axios
-  //   .post('/login', userData)
-  //   .then((res) => {
-  //     setAuthorizationHeader(res.data.token);
-  //     dispatch(getUserData());
-  //     dispatch({ type: CLEAR_ERRORS });
-  //     history.push('/puzzletweet'); // redirect to homepage after login
-  //   })
-  //   .catch((err) => {
-  //     dispatch({
-  //       type: SET_ERRORS,
-  //       payload: err.response.data,
-  //     });
-  //   });
   Auth.signIn(userData['email'], userData['password']).then(res => {
-    // setAuthorizationHeader(res.data.token);
-    // dispatch(getUserData());
-    // console.log(JSON.stringify(res));
+
+    Auth.currentUserInfo().then(userInfo => {
+      dispatch({
+        type: SET_USER,
+        payload: userInfo['attributes']
+      })
+    }).catch(err => {
+      console.log(JSON.stringify(err));
+    })
+
     Auth.currentSession().then(res => {
       const cognitogroups = res.accessToken.payload['cognito:groups'];
+      console.log(cognitogroups, "checkmehere");
       if (cognitogroups == 'Admin') {
-        alert("Admin");
         history.push('/');
         dispatch({
           type: SET_CURNAVINDEX,
@@ -37,7 +30,6 @@ export const loginUser = (userData, history) => (dispatch) => {
         });
       }
       else if (cognitogroups == 'PremiumUser') {
-        alert("PremiumUser");
         history.push('/puzzletweet');
         dispatch({
           type: SET_CURNAVINDEX,
@@ -45,7 +37,6 @@ export const loginUser = (userData, history) => (dispatch) => {
         });
       }
       else if (cognitogroups == 'Parent') {
-        alert("Parent");
         history.push('/innovationineducation');
         dispatch({
           type: SET_CURNAVINDEX,
@@ -53,7 +44,6 @@ export const loginUser = (userData, history) => (dispatch) => {
         });
       }
       else if (cognitogroups == 'Tutor') {
-        alert("Tutor");
         history.push('/tutoring');
         dispatch({
           type: SET_CURNAVINDEX,
@@ -61,15 +51,15 @@ export const loginUser = (userData, history) => (dispatch) => {
         });
       }
       else if (cognitogroups == 'Student') {
-        alert("Student");
         history.push('/puzzleworld');
         dispatch({
           type: SET_CURNAVINDEX,
           payload: 4,
         });
       }
+      else if (cognitogroups == 'Teacher') {
+      }
       else {
-        alert("Noral User");
         history.push('/gradeschool');
         dispatch({
           type: SET_CURNAVINDEX,
@@ -89,24 +79,12 @@ export const loginUser = (userData, history) => (dispatch) => {
 
 export const signupUser = (newUserData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  // axios
-  //   .post('/signup', newUserData)
-  //   .then((res) => {
-  //     setAuthorizationHeader(res.data.token);
-  //     dispatch(getUserData());
-  //     dispatch({ type: CLEAR_ERRORS });
-  //     history.push('/'); // redirect to homepage after login
-  //   })
-  //   .catch((err) => {
-  //     dispatch({
-  //       type: SET_ERRORS,
-  //       payload: err.response.data,
-  //     });
-  //   });
-  newUserData['username'] = newUserData['email'];
+
+  newUserData['attributes'] = { 'name': newUserData['username'] }
+  newUserData['username'] = newUserData['email']
+
   Auth.signUp(newUserData).then(res => {
-    // setAuthorizationHeader(res.data.token);
-    // dispatch(getUserData());
+
     dispatch({ type: CLEAR_ERRORS });
     history.push(`/confirm/${newUserData['username']}`);
   }).catch((err) => {
@@ -114,12 +92,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       type: SET_ERRORS,
       payload: "Please insert valid email and password",
     });
-    console.log("checkmeherestart")
     if (err && err.code == 'UsernameExistsException') {
-      console.log("checkmeherestart1")
       history.push(`/confirm/${newUserData['username']}`);
     }
-
   });
 };
 

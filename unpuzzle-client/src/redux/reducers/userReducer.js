@@ -6,6 +6,9 @@ const initialState = {
   credentials: {},
   likes: [],
   notifications: [],
+  name: "",
+  avatar: "",
+  email: ""
 };
 
 export default function (state = initialState, action) {
@@ -43,8 +46,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         likes: state.likes.filter(
-            (like) => like.puzzlepieceId !== action.payload.puzzlepieceId
-          )
+          (like) => like.puzzlepieceId !== action.payload.puzzlepieceId
+        )
       };
     case MARK_NOTIFICATIONS_READ:
       state.notifications.forEach(notification => notification.read = true);
@@ -55,3 +58,4 @@ export default function (state = initialState, action) {
       return state;
   }
 }
+

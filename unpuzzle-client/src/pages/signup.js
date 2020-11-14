@@ -26,7 +26,8 @@ class Signup extends Component {
       password: '',
       confirmPassword: '',
       handle: '',
-      errors: {},
+      username: '',
+      errors: { 'email': 'please insert valid email', 'username': 'username should not empty and can only contain alphabet', 'other': '' }
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -40,6 +41,7 @@ class Signup extends Component {
       loading: true,
     });
     const newUserData = {
+      username: this.state.username,
       email: this.state.email,
       password: this.state.password,
       confirmPassword: this.state.confirmPassword,
@@ -50,6 +52,7 @@ class Signup extends Component {
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
+    }, () => {
     });
   };
   render() {
@@ -66,13 +69,25 @@ class Signup extends Component {
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
+              id="username"
+              name="username"
+              type="username"
+              label="username"
+              className={classes.textField}
+              helperText={/^[A-Za-z]+$/.test(this.state.username) ? '' : errors.username}
+              error={/^[A-Za-z]+$/.test(this.state.username) ? false : true}
+              value={this.state.username}
+              onChange={this.handleChange}
+              fullWidth
+            />
+            <TextField
               id="email"
               name="email"
               type="email"
               label="Email"
               className={classes.textField}
-              helperText={errors.email}
-              error={errors.email ? true : false}
+              helperText={/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.state.email) ? '' : errors.email}
+              error={/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.state.email) ? false : true}
               value={this.state.email}
               onChange={this.handleChange}
               fullWidth
