@@ -30,6 +30,7 @@ import bookasession from './pages/bookasession';
 import Footer from './components/layout/Footer';
 import axios from 'axios';
 import ConfirmEmailContainer from './pages/confirmation';
+import VerticalTabs from './components/layout/VerticalTab';
 
 const theme = createMuiTheme(themeFile);
 
@@ -58,22 +59,24 @@ function App() {
       <Provider store={store}>
         <Router>
           <Navbar value={value} setValue={setValue} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/tutoring" component={tutoring} />
-            <Route exact path="/gradeschool" component={gradeschool} />
-            <Route exact path="/computerprogramming" component={computerprogramming} />
-            <Route exact path="/digitalskills" component={digitalskills} />
-            <Route exact path="/puzzleworld" component={PuzzleWorld} />
-            <Route exact path="/puzzletweet" component={PuzzleTweet} />
-            <Route exact path="/innovationineducation" component={innovationineducation} />
-            <Route exact path="/bookasession" component={bookasession} />
-            <AuthRoute exact path="/login" component={login} />
-            <AuthRoute exact path="/confirm/:username" component={ConfirmEmailContainer} />
-            <AuthRoute exact path="/signup" component={signup} />
-            <Route exact path="/users/:handle" component={user} />
-            <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
-          </Switch>
+          <VerticalTabs>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/tutoring" component={tutoring} />
+              <Route exact path="/gradeschool" component={gradeschool} />
+              <Route exact path="/computerprogramming" component={computerprogramming} />
+              <Route exact path="/digitalskills" component={digitalskills} />
+              <Route exact path="/puzzleworld" component={PuzzleWorld} />
+              <Route exact path="/puzzletweet" component={PuzzleTweet} />
+              <Route exact path="/innovationineducation" component={innovationineducation} />
+              <Route exact path="/bookasession" component={bookasession} />
+              <AuthRoute exact path="/login" component={login} />
+              <AuthRoute exact path="/confirm/:username" component={ConfirmEmailContainer} />
+              <AuthRoute exact path="/signup" component={signup} />
+              <Route exact path="/users/:handle" component={user} />
+              <Route exact path="/users/:handle/puzzlepiece/:puzzlepieceId" component={user} />
+            </Switch>
+          </VerticalTabs>
           <Footer value={value} setValue={setValue} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
         </Router>
       </Provider>
