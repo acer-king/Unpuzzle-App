@@ -21,6 +21,7 @@ import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from '@material-ui/core/Avatar';
 
 // Icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -31,6 +32,14 @@ import upLogo from "../../images/upLogo.svg";
 const styles = (theme) => {
   return {
     ...theme.themeStyle,
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    large: {
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    },
     toolbarMargin: {
       ...theme.mixins.toolbar,
       marginBottom: "1.1em",
@@ -119,7 +128,7 @@ const styles = (theme) => {
 };
 
 const Navbar = (props) => {
-  const { classes, authenticated } = props;
+  const { classes, authenticated, username } = props;
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -420,15 +429,13 @@ const Navbar = (props) => {
           <Button
             component={Link}
             to="/"
+            tip="acer"
             onClick={() => props.setValue(0)}
-            className={classes.logoContainer}
+            className={`${classes.logoContainer} Navbar-tab-16`}
             disableRipple
           >
-            <img
-              alt="Company Logo"
-              src={upLogo}
-              className={classes.headerLogo}
-            />
+            <Avatar alt="Remy Sharp" className={classes.large} />
+            &nbsp; {username}
           </Button>
           {authenticated ? (
             <Fragment>
@@ -462,6 +469,7 @@ Navbar.propTypes = {
 
 const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
+  username: state.user.name
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(Navbar));
