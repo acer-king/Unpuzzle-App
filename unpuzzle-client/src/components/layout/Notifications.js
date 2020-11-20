@@ -34,7 +34,7 @@ class Notifications extends Component {
       .filter(notification => !notification.read)
       .map(notification => notification.notificationId);
     this.props.markNotificationsRead(unreadNotificationsIds);
-  }  
+  }
   render() {
     const notifications = this.props.notifications;
     const anchorEl = this.state.anchorEl;
@@ -42,20 +42,20 @@ class Notifications extends Component {
     dayjs.extend(relativeTime);
 
     let notificationsIcon;
-    if(notifications && notifications.length > 0) {
-      notifications.filter(notification => notification.read === false).length > 0 
+    if (notifications && notifications.length > 0) {
+      notifications.filter(notification => notification.read === false).length > 0
         ? notificationsIcon = (
           <Badge badgeContent={notifications.filter(notification => notification.read === false).length}
             color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <NotificationsIcon />
+          </Badge>
         ) : (
           notificationsIcon = <NotificationsIcon />
         )
     } else {
       notificationsIcon = <NotificationsIcon />
     }
-    let notificationsMarkup = 
+    let notificationsMarkup =
       notifications && notifications.length > 0 ? (
         notifications.map(notification => {
           const verb = notification.type === 'like' ? 'liked' : 'commented on';
@@ -64,8 +64,8 @@ class Notifications extends Component {
           const icon = notification.type === 'like' ? (
             <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />
           ) : (
-            <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
-          )
+              <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
+            )
 
           return (
             <MenuItem key={notification.createdAt} onClick={this.handleClose}>
@@ -82,25 +82,25 @@ class Notifications extends Component {
           )
         })
       ) : (
-        <MenuItem onClick={this.handleClose}>
-          You have no notifications yet.
-        </MenuItem>
-      )
+          <MenuItem onClick={this.handleClose}>
+            You have no notifications yet.
+          </MenuItem>
+        )
     return (
       <Fragment>
         <Tooltip placement="top" title="Notifications">
-          <IconButton aria-owns={anchorEl ? 'simple-menu' : undefined }
+          <IconButton aria-owns={anchorEl ? 'simple-menu' : undefined}
             aria-haspopup="true"
             onClick={this.handleOpen}
           >
             {notificationsIcon}
           </IconButton>
         </Tooltip>
-        <Menu 
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={this.handleClose}
-        onEntered={this.onMenuOpened}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+          onEntered={this.onMenuOpened}
         >
           {notificationsMarkup}
         </Menu>

@@ -9,7 +9,7 @@ Auth.configure(awsconfig)
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   Auth.signIn(userData['email'], userData['password']).then(res => {
-
+    
     Auth.currentUserInfo().then(userInfo => {
       dispatch({
         type: SET_USER,

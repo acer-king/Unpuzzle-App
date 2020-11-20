@@ -28,6 +28,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import MenuIcon from "@material-ui/icons/Menu";
 // Logo
 import upLogo from "../../images/upLogo.svg";
+import { logoutUser } from "../../redux/actions/userActions";
 
 const styles = (theme) => {
   return {
@@ -128,7 +129,7 @@ const styles = (theme) => {
 };
 
 const Navbar = (props) => {
-  const { classes, authenticated, username } = props;
+  const { classes, authenticated, username, groupid } = props;
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down("md"));
@@ -136,6 +137,8 @@ const Navbar = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
+
+
 
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
@@ -156,6 +159,11 @@ const Navbar = (props) => {
     setAnchorEl(null);
     setOpenMenu(false);
   };
+  const handleClickOnNav = (navName) => {
+    if (navName == "Logout") {
+      props.logoutUser()
+    }
+  }
 
   const menuOptions = [
     { name: "Tutoring", link: "/tutoring", activeIndex: 1, selectedIndex: 0 },
@@ -198,7 +206,11 @@ const Navbar = (props) => {
     },
     { name: "Login", link: "/login", activeIndex: 5 },
     { name: "Signup", link: "/signup", activeIndex: 6 },
+    { name: "Logout", link: "/", activeIndex: 0 },
   ];
+
+  const groupnames = ['Admin', 'PremiumUser', 'Parent', 'Tutor', 'Student', 'Teacher']
+
   const location = useLocation();
   useEffect(() => {
     [...menuOptions, ...guestRoutes].forEach((route) => {
@@ -247,18 +259,51 @@ const Navbar = (props) => {
         indicatorColor="primary"
       >
         {guestRoutes.map((route, i) => (
-          <Tab
-            key={`${route}${i}`}
-            className={classes.tab}
-            component={Link}
-            to={route.link}
-            label={route.name}
-            onMouseOver={route.mouseOver}
-            aria-owns={route.ariaOwns}
-            aria-haspopup={route.ariaHasPopup}
-          />
+          authenticated ? (
+            (route.name == "Login" || route.name == "Signup") ? null :
+              <Tab
+                key={`${route}${i}`}
+                className={classes.tab}
+                component={Link}
+                to={route.link}
+                label={route.name}
+                onMouseOver={route.mouseOver}
+                aria-owns={route.ariaOwns}
+                aria-haspopup={route.ariaHasPopup}
+                onClick={e => { handleClickOnNav(route.name) }}
+              />
+          ) :
+            (
+              route.name == "Logout" ? null :
+                <Tab
+                  key={`${route}${i}`}
+                  className={classes.tab}
+                  component={Link}
+                  to={route.link}
+                  label={route.name}
+                  onMouseOver={route.mouseOver}
+                  aria-owns={route.ariaOwns}
+                  aria-haspopup={route.ariaHasPopup}
+                />
+            )
         ))}
       </Tabs>
+      {authenticated ? (
+        < Button
+          component={Link}
+          to="/"
+          tip="acer"
+          onClick={() => props.setValue(0)}
+          className={`${classes.logoContainer} Navbar-tab-16`}
+          disableRipple
+        >
+          <Avatar alt="Remy Sharp" className={classes.large} />
+          <span>{username}</span>
+          <span>{username ?? groupnames[groupid]}</span>
+        </Button>
+      ) : null
+      }
+
       <Button
         variant="contained"
         color="secondary"
@@ -296,7 +341,7 @@ const Navbar = (props) => {
           </MenuItem>
         ))}
       </Menu>
-    </Fragment>
+    </Fragment >
   );
 
   const loggedInTabs = (
@@ -421,25 +466,13 @@ const Navbar = (props) => {
       </IconButton>
     </Fragment>
   );
-
   return (
     <Fragment>
       <AppBar position="fixed" className={classes.appbar}>
         <Toolbar disableGutters className="nav-container">
-          <Button
-            component={Link}
-            to="/"
-            tip="acer"
-            onClick={() => props.setValue(0)}
-            className={`${classes.logoContainer} Navbar-tab-16`}
-            disableRipple
-          >
-            <Avatar alt="Remy Sharp" className={classes.large} />
-            &nbsp; {username}
-          </Button>
           {authenticated ? (
             <Fragment>
-              <PostPuzzlepiece />
+              {/* <PostPuzzlepiece />
               <Link to="/">
                 <MyButton tip="Home">
                   <HomeIcon />
@@ -450,10 +483,12 @@ const Navbar = (props) => {
                   Puzzle Tweet
                 </MyButton>
               </Link>
-              <Notifications />
+              <Notifications /> */}
+              {guestUserTabs}
             </Fragment>
           ) : (
-              <Fragment>{matches ? guestUserDrawer : guestUserTabs}</Fragment>
+              <Fragment>{matches ? guestUserDrawer : guestUserTabs}
+              </Fragment>
             )}
         </Toolbar>
       </AppBar>
@@ -464,12 +499,14 @@ const Navbar = (props) => {
 
 Navbar.propTypes = {
   authenticated: PropTypes.bool.isRequired,
+  logoutUser: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
+const mapActionToProps = { logoutUser }
 const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
   username: state.user.name
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Navbar));
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(Navbar));

@@ -7,6 +7,7 @@ const initialState = {
   likes: [],
   notifications: [],
   name: "",
+  groupname: "",
   avatar: "",
   email: ""
 };
